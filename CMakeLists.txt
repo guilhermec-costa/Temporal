@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.30.1)
 project(RPG2D) 
 set(CMAKE_CXX_STANDARD 17)
 
+
 function(check_subdirectories dir out)
     file(GLOB subdirs RELATIVE "${dir}" "${dir}/*")
 
@@ -16,6 +17,14 @@ function(check_subdirectories dir out)
     set(${out} FALSE PARENT_SCOPE)
 endfunction()
 
+if (MSVC)
+    # warning level 4
+    add_compile_options(/W4)
+else()
+    # additional warnings
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
 check_subdirectories("src" HAS_SUBDIR)
 
 # if(HAS_SUBDIR)
@@ -28,7 +37,7 @@ check_subdirectories("src" HAS_SUBDIR)
 
 set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
 set(SDL2_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL/x64")
-message(STATUS ${SDL2_LIBRARY_DIR})
+file(GLOB_RECURSE include_dirs "include/**/*.h")
 
 include_directories(include ${SDL2_INCLUDE_DIR})
 link_directories(${SDL2_LIBRARY_DIR})
