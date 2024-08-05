@@ -27,11 +27,8 @@ endif()
 
 check_subdirectories("src" HAS_SUBDIR)
 
-# if(HAS_SUBDIR)
-    # file(GLOB_RECURSE SOURCES "src/**/*.cpp")
-# else()
-    file(GLOB SOURCES "src/*.cpp" "main.cpp")
-# endif()
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/**/*.cpp")
+message("files: " ${SOURCES})
 
 # SDL config
 
