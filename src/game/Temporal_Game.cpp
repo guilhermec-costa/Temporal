@@ -4,7 +4,6 @@ namespace Temporal::Game
     TemporalGame::TemporalGame(Temporal_SDL_Window& window)
         : m_main_window(window)
     {
-        m_main_window.create();
     }
 
     TemporalGame::~TemporalGame()

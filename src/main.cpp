@@ -14,7 +14,6 @@ int main()
     using Temporal_SDL_Window = Temporal::Game::Temporal_SDL_Window;
     Logger::get().set_log_level(loglvls::DEBUG);
     LOG_INFO("Game started!");
-
     Temporal_SDL_Window window("Temporal", 800, 600);
     Game game(window);
     using time_casts = Profiling::Time_Casting_Types;
