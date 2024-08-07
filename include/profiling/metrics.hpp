@@ -3,6 +3,10 @@
 #include <unordered_map>
 #include <typeindex>
 
+#ifdef NDEBUG
+    #define DEBUG_ENABLED
+#endif
+
 namespace Profiling
 {
     using Clock = std::chrono::high_resolution_clock;

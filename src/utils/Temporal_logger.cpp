@@ -5,11 +5,14 @@
 #include <iomanip>
 #include <sstream>
 
+// mutex objects protects a critical code section, so that only the current thread can access it
+// avoiding race condition
 namespace Temporal::Utils
 {
     Logger::Logger()
         : m_operating(true), m_log_thread(&Logger::log_worker, this) 
     {
+        // the log_worker routine is initialized and start running at another thread 
     };
 
     Logger::~Logger()
@@ -41,9 +44,11 @@ namespace Temporal::Utils
         std::string ts = get_ts();
         std::string log_message = get_ts() + " [" + log_level_str + "] " + message;
         {
-            std::unique_lock<std::mutex> locker(m_queue_mutex);
+            std::unique_lock<std::mutex> mtx_manager(m_queue_mutex);
             m_log_queue.push(log_message);
         }
+
+        // notifies the all waiting threads
         m_cv.notify_all();
     }
 
@@ -67,8 +72,11 @@ namespace Temporal::Utils
         // run as long as the logger lives
         while (m_operating)
         {
-            std::unique_lock<std::mutex> locker(m_queue_mutex);
-            m_cv.wait(locker, [this]
+            // automatically locks the mutex at the creation
+            std::unique_lock<std::mutex> mtx_manager(m_queue_mutex);
+            // blocks the current thread until the queue is not empty or the worker is no longer operating.
+            // the state is updated after the condition variable notifies it
+            m_cv.wait(mtx_manager, [this]
                       { return !this->m_log_queue.empty() || !this->m_operating; });
 
             while (!m_log_queue.empty())
@@ -76,9 +84,9 @@ namespace Temporal::Utils
                 std::string _message = m_log_queue.front();
                 m_log_queue.pop();
 
-                locker.unlock();
+                mtx_manager.unlock();
                 log_to_console(_message);
-                locker.lock();
+                mtx_manager.lock();
             }
         }
     }

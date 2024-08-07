@@ -41,4 +41,8 @@ link_directories(${SDL2_LIBRARY_DIR})
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+#debug configuration
+
+#set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DTEMPORAL_DEBUGGER")
+
 target_link_libraries(${PROJECT_NAME} SDL2 MINGW32)
