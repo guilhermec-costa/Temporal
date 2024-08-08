@@ -1,13 +1,11 @@
+#include <iostream>
 #include "game/Temporal_renderer.h"
 #include "utils/Temporal_logger.h"
-#include <iostream>
-#include "profiling/memory_tracker.hpp"
 
 namespace Temporal::Game {
     Temporal_SDL_Renderer::Temporal_SDL_Renderer(Temporal_SDL_Window& window)
         : m_window(window)
     {
-        std::cout << "renderer" << std::endl;
         m_renderer = SDL_CreateRenderer(m_window.get_window(), -1, SDL_RENDERER_PRESENTVSYNC);
         if(m_renderer == NULL)
         {

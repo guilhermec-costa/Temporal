@@ -7,6 +7,7 @@ namespace Temporal::Game
     Temporal_SDL_Window::Temporal_SDL_Window(const char* title, uint32_t w, uint32_t h)
         : m_title(title), m_width(w), m_heigth(h)
     {
+        int*  x = new int;
         create();
     }
 
