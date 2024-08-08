@@ -30,3 +30,27 @@ void Memory_Tracker::report() const
 }
 
 Memory_Tracker::Memory_Tracker() : m_total_allocated(0) {}
+
+// Implementations of the global new/delete operators
+#ifdef ENABLE_MEMORY_TRACKING
+void *operator new(size_t _s, const char *_f, int _l)
+{
+    return Memory_Tracker::get().alloc(_s, _f, _l);
+}
+
+void *operator new[](size_t size, const char *file, int line)
+{
+    return Memory_Tracker::get().alloc(size, file, line);
+}
+#define new new (__FILE__, __LINE__)
+
+void operator delete(void *ptr) noexcept
+{
+    Memory_Tracker::get()._free(ptr);
+}
+
+void operator delete[](void *ptr) noexcept
+{
+    Memory_Tracker::get()._free(ptr);
+}
+#endif

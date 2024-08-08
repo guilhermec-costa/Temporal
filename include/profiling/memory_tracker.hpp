@@ -33,3 +33,9 @@ private:
     size_t m_total_allocated;
 };
 
+#ifdef ENABLE_MEMORY_TRACKING
+void *operator new(size_t _s, const char *_f, int _l);
+void *operator new[](size_t size, const char *file, int line);
+void operator delete(void *ptr) noexcept;
+void operator delete[](void *ptr) noexcept;
+#endif

@@ -45,5 +45,9 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 #debug configuration
 #set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DTEMPORAL_DEBUGGER")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DDEBUG_MODE)
+    add_definitions(-DENABLE_MEMORY_TRACKING)
+endif()
 
 target_link_libraries(${PROJECT_NAME} SDL2 SDL2_image)
