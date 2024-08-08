@@ -14,13 +14,10 @@ namespace Temporal::Game {
         LOG_INFO("Temporal's SDL Renderer created!")
     };
 
-    SDL_Renderer* Temporal_SDL_Renderer::get_renderer() const
-    {
-        return m_renderer;
-    }
-
     void Temporal_SDL_Renderer::destroy()
     {
         SDL_DestroyRenderer(m_renderer);
     }
+
+    SDL_Renderer* Temporal_SDL_Renderer::get_renderer() const { return m_renderer; }
 }

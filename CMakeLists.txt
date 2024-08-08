@@ -34,15 +34,16 @@ message("files: " ${SOURCES})
 
 set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
 set(SDL2_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL/x64")
+set(SDL2image_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL2image/x64")
+
 file(GLOB_RECURSE include_dirs "include/**/*.h")
 
 include_directories(include ${SDL2_INCLUDE_DIR})
-link_directories(${SDL2_LIBRARY_DIR})
+link_directories(${SDL2_LIBRARY_DIR} ${SDL2image_LIBRARY_DIR})
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 #debug configuration
-
 #set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DTEMPORAL_DEBUGGER")
 
-target_link_libraries(${PROJECT_NAME} SDL2 MINGW32)
+target_link_libraries(${PROJECT_NAME} SDL2 SDL2_image)

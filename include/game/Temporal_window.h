@@ -1,9 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include <variant>
-#include <any>
 
-typedef std::variant<SDL_Window*> Win_Types;
 class IWindow {
 public:
     virtual void create() = 0;
