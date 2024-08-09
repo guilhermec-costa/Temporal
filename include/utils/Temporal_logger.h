@@ -11,8 +11,8 @@ namespace Temporal::Utils
 {
     enum class Log_Level
     {
-        DEBUG,
         INFO,
+        DEBUG,
         WARNING,
         ERROR
     };
@@ -40,7 +40,7 @@ namespace Temporal::Utils
 
     private:
         Log_Level m_log_level;
-        static std::unordered_map<std::type_index, const char *> log_level_map;
+        static std::unordered_map<Log_Level, const char *> log_level_map;
         std::queue<std::string> m_log_queue;
         std::mutex m_queue_mutex;
         std::thread m_log_thread;

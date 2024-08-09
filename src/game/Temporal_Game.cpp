@@ -3,8 +3,9 @@
 #include "SDL2/SDL_image.h"
 
 SDL_Rect src_rect, dst_rect;
-
 SDL_Texture* player_texture;
+int TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
+
 namespace Temporal::Game
 {
     TemporalGame::TemporalGame(Temporal_SDL_Window &window, Temporal_SDL_Renderer &renderer)
@@ -14,7 +15,6 @@ namespace Temporal::Game
         if (m_is_executing)
             LOG_INFO("Temporal started!")
 
-        player_texture = Temporal_Texture_Manager::get().load(Temporal_Resources::PLAYER_TEXTURE, renderer.get_renderer());
     }
 
     // must be done before game initialization
@@ -22,10 +22,17 @@ namespace Temporal::Game
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         {
-            LOG_ERROR("Failed to initialize SDL Video Subsystem\n")
+            LOG_ERROR("Failed to initialize SDL Video Subsystem")
+            m_is_executing = false;
+        }
+
+        if((IMG_Init(IMG_system_flags) & IMG_system_flags) != IMG_system_flags)
+        {
+            LOG_ERROR("SDL2_image format not available");
             m_is_executing = false;
         }
         m_is_executing = true;
+        player_texture = Temporal_Texture_Manager::get().load(Temporal_Resources::PLAYER_TEXTURE, m_main_renderer.get_renderer());
     }
 
     TemporalGame::~TemporalGame()

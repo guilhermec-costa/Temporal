@@ -10,36 +10,33 @@
 namespace Temporal::Utils
 {
     Logger::Logger()
-        : m_operating(true), m_log_thread(&Logger::log_worker, this) 
-    {
-        // the log_worker routine is initialized and start running at another thread 
-    };
+        : m_operating(true), m_log_thread(&Logger::log_worker, this) {
+              // the log_worker routine is initialized and start running at another thread
+          };
 
     Logger::~Logger()
     {
         m_operating = false;
         m_cv.notify_all();
-        if(m_log_thread.joinable())
+        if (m_log_thread.joinable())
             m_log_thread.join();
     }
 
-    std::unordered_map<std::type_index, const char *> Temporal::Utils::Logger::log_level_map = {
-        std::make_pair(std::type_index(typeid(loglvls::DEBUG)), "DEBUG"),
-        std::make_pair(std::type_index(typeid(loglvls::ERROR)), "ERROR"),
-        std::make_pair(std::type_index(typeid(loglvls::INFO)), "INFO"),
-        std::make_pair(std::type_index(typeid(loglvls::WARNING)), "WARNING")};
+    std::unordered_map<Log_Level, const char *> Temporal::Utils::Logger::log_level_map = {
+        {loglvls::DEBUG, "DEBUG"},
+        {loglvls::ERROR, "ERROR"},
+        {loglvls::INFO, "INFO"},
+        {loglvls::WARNING, "WARNING"}
+    };
 
-    void Logger::set_log_level(Log_Level level)
-    {
-        m_log_level = level;
-    }
+    void Logger::set_log_level(Log_Level level) { m_log_level = level; }
 
     void Logger::log(Log_Level level, const std::string &message) noexcept
     {
-        if (level < m_log_level)
+        if (level > m_log_level)
             return;
 
-        auto it = log_level_map.find(std::type_index(typeid(level)));
+        auto it = log_level_map.find(level);
         const char *log_level_str = it->second;
         std::string ts = get_ts();
         std::string log_message = get_ts() + " [" + log_level_str + "] " + message;

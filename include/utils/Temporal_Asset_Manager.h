@@ -1,5 +1,6 @@
 #pragma once
 #include "unordered_map"
+#include <string>
 #include <SDL2/SDL_surface.h>
 
 namespace Temporal::Utils
@@ -11,12 +12,16 @@ namespace Temporal::Utils
         Asset_Manager() = default;
         Asset_Manager(const Asset_Manager &) = delete;
         Asset_Manager &operator=(const Asset_Manager &) = delete;
-        mutable std::unordered_map<const char *, SDL_Surface *> m_surfaces;
+        std::unordered_map<std::string, SDL_Surface *> m_surfaces_map;
 
     public:
-        static Asset_Manager &get();
-        void load_asset(const char *);
-        SDL_Surface *get_asset(const char *);
-        void clear_from_asset_map(const char *);
+        static Asset_Manager &get()
+        {
+            static Asset_Manager instance;
+            return instance;
+        };
+        void load_asset(const std::string& path);
+        SDL_Surface *get_asset(const std::string& path);
+        void clear_from_asset_map(const std::string& path);
     };
 }

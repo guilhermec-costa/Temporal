@@ -4,29 +4,26 @@
 #include "utils/Temporal_aliases.hpp"
 #include <SDL2/SDL_image.h>
 #include "profiling/memory_tracker.hpp"
-#include "utils/Temporal_Asset_Manager.h"
 
 #undef main
 
-void load_textures()
-{
-    Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_TEXTURE);
-    Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_SPRITE);
-}
-
 int main()
 {
-
     Logger::get().set_log_level(loglvls::DEBUG);
-    load_textures();
 
     using time_casts = Profiling::Time_Casting_Types;
 
     Profiling::Timer<time_casts::Milliseconds> timer("main");
-
     Temporal_SDL_Window window("Temporal", 800, 600);
     Temporal_SDL_Renderer renderer(window);
+    Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_TEXTURE);
+    Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_TEXTURE);
+    Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_SPRITE);
+
     TemporalGame temporalGame(window, renderer);
+
+
+    //load_textures();
     temporalGame.set_max_framerate(120);
 
 

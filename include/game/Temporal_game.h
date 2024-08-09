@@ -29,5 +29,6 @@ namespace Temporal::Game
         Temporal_SDL_Renderer &m_main_renderer;
         bool m_is_executing;
         unsigned int m_max_framerate;
+        static int IMG_system_flags; 
     };
 };

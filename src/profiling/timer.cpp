@@ -46,7 +46,7 @@ void Profiling::Timer<__Ty>::present(const long long duration)
     const static auto time_casters = Time_Casting_Types::time_cast_map;
     auto it = time_casters.find(std::type_index(typeid(__Ty)));
     const char *time_unit = (it != time_casters.end()) ? it->second : "unknown unity";
-    std::cout << "\"" << m_fn_name << "\": " << duration << " " << time_unit << "\n";
+    std::cout << "\"" << m_fn_name << "\": " << duration << " " << time_unit << std::endl;
     std::cout << "---------------" << std::endl;
 }
 
