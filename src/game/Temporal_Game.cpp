@@ -1,5 +1,5 @@
 #include "game/Temporal_game.h"
-#include "utils/Temporal_logger.h"
+#include "utils/Temporal_aliases.hpp"
 #include "SDL2/SDL_image.h"
 
 SDL_Rect src_rect, dst_rect;
@@ -13,9 +13,8 @@ namespace Temporal::Game
         setup_core_systems();
         if (m_is_executing)
             LOG_INFO("Temporal started!")
-        SDL_Surface* sfc = IMG_Load("res\\gfx\\player_sprite.png");
-        player_texture = SDL_CreateTextureFromSurface(renderer.get_renderer(), sfc);
-        SDL_FreeSurface(sfc);
+
+        player_texture = Temporal_Texture_Manager::get().load(Temporal_Resources::PLAYER_TEXTURE, renderer.get_renderer());
     }
 
     // must be done before game initialization
@@ -57,20 +56,17 @@ namespace Temporal::Game
 
     void TemporalGame::update()
     {
-        src_rect.w = 32;
-        src_rect.h = 32;
-
         dst_rect.x = 10;
         dst_rect.y = 10;
-        dst_rect.w = 32;
-        dst_rect.h = 32;
+        dst_rect.w = 128;
+        dst_rect.h = 128;
     }
 
     void TemporalGame::render()
     {
         SDL_Renderer *renderer = m_main_renderer.get_renderer();
         SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, player_texture, &src_rect, &dst_rect);
+        SDL_RenderCopy(renderer, player_texture, NULL, &dst_rect);
         SDL_RenderPresent(renderer);
     }
 

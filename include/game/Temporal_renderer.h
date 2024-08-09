@@ -1,3 +1,4 @@
+#pragma once
 #include "Temporal_window.h"
 namespace Temporal::Game
 {
