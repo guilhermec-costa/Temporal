@@ -1,13 +1,20 @@
 #include "game/Temporal_game.h"
 #include "utils/Temporal_aliases.hpp"
+#include "game/factories/Temporal_Game_Object_factory.h"
+#include "game/entities/Temporal_Player.h"
 #include "SDL2/SDL_image.h"
+#include <iostream>
 
 SDL_Rect src_rect, dst_rect;
 SDL_Texture* player_texture;
+Player* player = nullptr;
 int TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
 
 namespace Temporal::Game
 {
+    namespace Factories = Temporal::Game::Factories;
+    namespace Entities = Temporal::Game::Entities;
+
     TemporalGame::TemporalGame(Temporal_SDL_Window &window, Temporal_SDL_Renderer &renderer)
         : m_main_window(window), m_main_renderer(renderer), m_max_framerate(60)
     {
@@ -15,6 +22,10 @@ namespace Temporal::Game
         if (m_is_executing)
             LOG_INFO("Temporal started!")
 
+        Game_Object_Factory::get_instance().register_type("Player", new Player_Creator());
+        Temporal_Texture_Manager::get().load(Temporal_Resources::PLAYER_TEXTURE, m_main_renderer.get_renderer());
+        player = dynamic_cast<Player*>(Game_Object_Factory::get_instance().create("Player"));
+        player->load(Temporal_Resources::PLAYER_TEXTURE);
     }
 
     // must be done before game initialization
@@ -32,7 +43,6 @@ namespace Temporal::Game
             m_is_executing = false;
         }
         m_is_executing = true;
-        player_texture = Temporal_Texture_Manager::get().load(Temporal_Resources::PLAYER_TEXTURE, m_main_renderer.get_renderer());
     }
 
     TemporalGame::~TemporalGame()
@@ -73,7 +83,7 @@ namespace Temporal::Game
     {
         SDL_Renderer *renderer = m_main_renderer.get_renderer();
         SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, player_texture, NULL, &dst_rect);
+        player->render(renderer);
         SDL_RenderPresent(renderer);
     }
 

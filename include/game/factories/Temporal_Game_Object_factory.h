@@ -12,8 +12,6 @@ namespace Temporal::Game::Factories
         virtual ~Temporal_Base_Creator() = default;
     };
 
-    typedef Temporal_Base_Creator Base_Creator;
-    typedef Temporal_IGame_Object Game_Object;
 
     class Temporal_Game_Object_Factory
     {
@@ -24,7 +22,7 @@ namespace Temporal::Game::Factories
             return instance;
         }
 
-        bool register_type(const std::string &typeId);
+        bool register_type(const std::string &typeId, Temporal_Base_Creator* bc);
         Game_Object *create(const std::string &typeId);
 
     private:
@@ -32,7 +30,10 @@ namespace Temporal::Game::Factories
         Temporal_Game_Object_Factory(const Temporal_Game_Object_Factory &cpy) = delete;
         ~Temporal_Game_Object_Factory();
         Temporal_Game_Object_Factory &operator=(const Temporal_Game_Object_Factory &cpy) = delete;
-        std::unordered_map<std::string, Base_Creator *> m_base_creators;
+        std::unordered_map<std::string, Temporal_Base_Creator*> m_base_creators;
     };
 
 }
+
+typedef Temporal::Game::Factories::Temporal_Game_Object_Factory Game_Object_Factory;
+typedef Temporal::Game::Factories::Temporal_Base_Creator Object_Base_Creator;

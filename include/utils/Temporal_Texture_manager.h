@@ -1,6 +1,8 @@
 #pragma once
 #include "SDL2/SDL_render.h"
 #include "unordered_map"
+#include <string>
+
 namespace Temporal::Utils
 {
     class Temporal_Texture_Manager
@@ -12,12 +14,13 @@ namespace Temporal::Utils
             return instance;
         }
 
-        SDL_Texture *load(const char *path, SDL_Renderer *renderer);
+        SDL_Texture *load(const std::string& path, SDL_Renderer *renderer);
+        void draw(std::string txtId, const int x, const int y, const int w, const int h, SDL_Renderer* renderer);
 
     private:
         Temporal_Texture_Manager() = default;
         Temporal_Texture_Manager(const Temporal_Texture_Manager &ref) = delete;
         Temporal_Texture_Manager &operator=(const Temporal_Texture_Manager &ref) = delete;
-        std::unordered_map<const char *, SDL_Texture *> m_texture_map;
+        std::unordered_map<std::string, SDL_Texture *> m_texture_map;
     };
 }
