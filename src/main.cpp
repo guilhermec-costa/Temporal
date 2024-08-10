@@ -17,7 +17,6 @@ int main()
     Temporal_SDL_Window window("Temporal", 800, 600);
     Temporal_SDL_Renderer renderer(window);
     Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_TEXTURE);
-    Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_TEXTURE);
     Temporal_Asset_Manager::get().load_asset(Temporal_Resources::PLAYER_SPRITE);
 
     TemporalGame temporalGame(window, renderer);
