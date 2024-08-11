@@ -26,7 +26,7 @@ namespace Temporal::Game
         Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, renderer.get_renderer());
         Game_Object_Factory::get_instance().register_type("Player", new Player_Creator());
         player = dynamic_cast<Temporal_Player*>(Game_Object_Factory::get_instance().create("Player"));
-        player->load(PLAYER_TEXTURE);
+        player->load(new Temporal_Loading_Parameter(30, 30, 64, 64, PLAYER_TEXTURE));
     }
 
     // must be done before game initialization

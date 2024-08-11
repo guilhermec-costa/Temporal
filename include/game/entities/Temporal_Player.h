@@ -12,7 +12,7 @@ namespace Temporal::Game::Entities
             virtual void render(SDL_Renderer* renderer);
             virtual void update();
             virtual void end();
-            void load(const std::string& texture_path);
+            void load(Temporal_Loading_Parameter* params);
     };
 
     class Player_Creator: public Factories::Temporal_Base_Creator

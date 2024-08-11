@@ -19,8 +19,8 @@ namespace Temporal::Game::Entities
     {
     }
 
-    void Temporal::Game::Entities::Player::load(const std::string& texture_path)
+    void Temporal::Game::Entities::Player::load(Temporal_Loading_Parameter* params)
     {
-        Temporal_SDL_Game_Object::load(texture_path);
+        Temporal_SDL_Game_Object::load(params);
     }
 }

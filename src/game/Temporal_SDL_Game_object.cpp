@@ -1,4 +1,5 @@
 #include "game/Temporal_SDL_Game_Object.h"
+#include <string>
 #include "utils/Temporal_Texture_Manager.h"
 
 namespace Temporal::Game {
@@ -6,8 +7,6 @@ namespace Temporal::Game {
     Temporal_SDL_Game_Object::Temporal_SDL_Game_Object(): Temporal_IGame_Object(),
          m_position(0, 0)
     {
-        m_width = 32;
-        m_height = 32;
     }
 
     void Temporal_SDL_Game_Object::render(SDL_Renderer* renderer)
@@ -28,8 +27,17 @@ namespace Temporal::Game {
     {
     }
 
-    void Temporal_SDL_Game_Object::load(const std::string& texture_path)
+    void Temporal_SDL_Game_Object::load(Temporal_Loading_Parameter* params)
     {
-        m_texture_path = texture_path;
+        m_texture_path = params->get_texture_path();
+        m_position = Vector2D(params->get_x(), params->get_y());
+        m_width = params->get_width();
+        m_height = params->get_height();
+        m_params = params;
+    }
+
+    Temporal_SDL_Game_Object::~Temporal_SDL_Game_Object()
+    {
+        delete m_params;
     }
 }

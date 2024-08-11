@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include "Temporal_IGame_Object.h"
+#include "game/Temporal_IGame_Object.h"
+#include "game/Temporal_Loading_Parameters.h"
 #include "core/Vector2D.h"
 
 namespace Temporal::Game
@@ -11,10 +12,11 @@ namespace Temporal::Game
 
     public:
         Temporal_SDL_Game_Object();
+        ~Temporal_SDL_Game_Object();
         virtual void render(SDL_Renderer* renderer);
         virtual void update();
         virtual void end();
-        void load(const std::string& texture_path);
+        void load(Temporal_Loading_Parameter* params);
         Vector2D& get_position() { return m_position; }
         int get_width() const { return m_width; }
         int get_height() const { return m_height; }
@@ -23,6 +25,7 @@ namespace Temporal::Game
         Vector2D m_position;
         int m_width, m_height;
         std::string m_texture_path;
+        Temporal_Loading_Parameter* m_params;
     };
 }
 
