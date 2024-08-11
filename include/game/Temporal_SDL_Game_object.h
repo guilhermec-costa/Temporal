@@ -13,7 +13,7 @@ namespace Temporal::Game
     public:
         Temporal_SDL_Game_Object();
         ~Temporal_SDL_Game_Object();
-        virtual void render(SDL_Renderer* renderer);
+        virtual void render();
         virtual void update();
         virtual void end();
         void load(Temporal_Loading_Parameter* params);

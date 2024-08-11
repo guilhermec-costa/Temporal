@@ -7,6 +7,12 @@ namespace Temporal::Utils
 {
     SDL_Texture* Temporal_Texture_Manager::load(const std::string& path, SDL_Renderer* renderer)
     {
+        auto it = m_texture_map.find(path);
+        if(it != m_texture_map.end())
+        {
+            return it->second;
+        }
+
         SDL_Surface* sfc = Temporal_Asset_Manager::get().get_asset(path);
         SDL_Texture* txt = SDL_CreateTextureFromSurface(renderer, sfc);
         if(txt == nullptr)

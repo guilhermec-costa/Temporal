@@ -1,6 +1,7 @@
-#include "game/Temporal_SDL_Game_Object.h"
 #include <string>
+#include "game/Temporal_SDL_Game_Object.h"
 #include "utils/Temporal_Texture_Manager.h"
+#include "game/Temporal_Game.h"
 
 namespace Temporal::Game {
     using Texture_Manager = Temporal::Utils::Temporal_Texture_Manager;
@@ -9,13 +10,13 @@ namespace Temporal::Game {
     {
     }
 
-    void Temporal_SDL_Game_Object::render(SDL_Renderer* renderer)
+    void Temporal_SDL_Game_Object::render()
     {
         Texture_Manager::get().draw(
             m_texture_path, 
             static_cast<int>(m_position.get_x()), 
             static_cast<int>(m_position.get_y()), 
-            m_width, m_height, renderer
+            m_width, m_height, Temporal_Game::m_renderer->get_renderer()
         );
     }
 

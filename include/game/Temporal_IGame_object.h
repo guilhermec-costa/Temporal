@@ -8,7 +8,7 @@ namespace Temporal::Game
     class Temporal_IGame_Object
     {
     public:
-        virtual void render(SDL_Renderer* renderer) = 0;
+        virtual void render() = 0;
         virtual void update() = 0;
         virtual void end() = 0;
         virtual void load(Temporal_Loading_Parameter* params) = 0;

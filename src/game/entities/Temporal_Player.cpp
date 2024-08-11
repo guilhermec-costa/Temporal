@@ -6,13 +6,15 @@ namespace Temporal::Game::Entities
     {
     }
 
-    void Temporal::Game::Entities::Player::render(SDL_Renderer* renderer)
+    void Temporal::Game::Entities::Player::render()
     {
-        Temporal_SDL_Game_Object::render(renderer);
+        Temporal_SDL_Game_Object::render();
     }
 
     void Temporal::Game::Entities::Player::update()
     {
+        // m_position.set_x(m_position.get_x() + 1);
+        // m_position.set_y(m_position.get_x() + 1);
     }
 
     void Temporal::Game::Entities::Player::end()

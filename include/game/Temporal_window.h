@@ -16,6 +16,9 @@ namespace Temporal::Game
         void create() override;
         void destroy() override;
         SDL_Window* get_window() const;
+
+        uint32_t get_width() const { return m_width; }
+        uint32_t get_height() const { return m_heigth; }
     private:
         SDL_Window* m_window;
         uint32_t m_width, m_heigth;

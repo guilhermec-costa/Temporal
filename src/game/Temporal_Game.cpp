@@ -6,27 +6,60 @@
 #include "utils/Temporal_Logger.h"
 #include "utils/Temporal_Texture_Manager.h"
 #include "game/entities/Temporal_Player.h"
+#include "game/map/Temporal_Tilemap.h"
 
-Temporal_Player* player = nullptr;
-int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
 using namespace Temporal::Resources;
+using namespace Temporal::Game::Map;
+
+
+int map_data[500] = {
+    1, 1, 0, 0, 1, 0, 2, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0,
+    1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1,
+    0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0, 1, 0, 1, 1, 0, 1, 2, 1, 0, 1, 1, 0,
+    0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1,
+    1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 2, 1, 0, 2, 0, 1, 0,
+    1, 2, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 2, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0,
+    1, 0, 1, 1, 2, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 2, 1, 0, 1, 0, 1, 1,
+    0, 0, 1, 0, 0, 2, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0,
+    1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1,
+    1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0,
+    1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 2, 0, 1, 0,
+    1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 2, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1,
+    0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0,
+    0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 2, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1,
+    1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0,
+    1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1,
+    1, 0, 0, 1, 0, 2, 0, 1, 0, 1, 1, 0, 2, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1,
+    0, 2, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1,
+    1, 0, 0, 1, 2, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0,
+    1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 2, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0};
+
+Temporal_Player *player = nullptr;
+Temporal_Tilemap *map = nullptr;
+int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
+Temporal_SDL_Renderer *Temporal::Game::TemporalGame::m_renderer = nullptr;
 
 namespace Temporal::Game
 {
     namespace Factories = Temporal::Game::Factories;
     namespace Entities = Temporal::Game::Entities;
 
-    TemporalGame::TemporalGame(Temporal_SDL_Window &window, Temporal_SDL_Renderer &renderer)
-        : m_main_window(window), m_main_renderer(renderer), m_max_framerate(60)
+    TemporalGame::TemporalGame(Temporal_SDL_Window &window)
+        : m_main_window(window), m_max_framerate(60)
     {
+        Temporal_SDL_Renderer *_renderer = new Temporal_SDL_Renderer(window);
+        m_renderer = _renderer;
         setup_core_systems();
         if (m_is_executing)
             LOG_INFO("Temporal started!")
 
-        Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, renderer.get_renderer());
+        Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, m_renderer->get_renderer());
         Game_Object_Factory::get_instance().register_type("Player", new Player_Creator());
-        player = dynamic_cast<Temporal_Player*>(Game_Object_Factory::get_instance().create("Player"));
-        player->load(new Temporal_Loading_Parameter(30, 30, 64, 64, PLAYER_TEXTURE));
+        player = dynamic_cast<Temporal_Player *>(Game_Object_Factory::get_instance().create("Player"));
+        player->load(new Temporal_Loading_Parameter(30, 30, 128, 128, PLAYER_TEXTURE));
+
+        map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
+        map->load_map(map_data);
     }
 
     // must be done before game initialization
@@ -38,7 +71,7 @@ namespace Temporal::Game
             m_is_executing = false;
         }
 
-        if((IMG_Init(IMG_system_flags) & IMG_system_flags) != IMG_system_flags)
+        if ((IMG_Init(IMG_system_flags) & IMG_system_flags) != IMG_system_flags)
         {
             LOG_ERROR("SDL2_image format not available");
             m_is_executing = false;
@@ -49,13 +82,12 @@ namespace Temporal::Game
     TemporalGame::~TemporalGame()
     {
         ends();
+        delete map;
         LOG_INFO("Temporal has been closed");
     }
 
     Temporal_SDL_Window &TemporalGame::get_wrapper_window() const { return m_main_window; }
-    Temporal_SDL_Renderer &TemporalGame::get_wrapper_renderer() const { return m_main_renderer; }
     SDL_Window *TemporalGame::get_raw_window() const { return m_main_window.get_window(); }
-    SDL_Renderer *TemporalGame::get_raw_renderer() const { return m_main_renderer.get_renderer(); }
     bool TemporalGame::executing() const { return m_is_executing; }
 
     void TemporalGame::process_inputs()
@@ -79,15 +111,15 @@ namespace Temporal::Game
 
     void TemporalGame::render()
     {
-        SDL_Renderer *renderer = m_main_renderer.get_renderer();
-        SDL_RenderClear(renderer);
-        player->render(renderer);
-        SDL_RenderPresent(renderer);
+        SDL_RenderClear(m_renderer->get_renderer());
+        map->render_map();
+        player->render();
+        SDL_RenderPresent(m_renderer->get_renderer());
     }
 
     void TemporalGame::ends()
     {
-        m_main_renderer.destroy();
+        m_renderer->destroy();
         m_main_window.destroy();
         player->end();
         SDL_Quit();

@@ -9,7 +9,7 @@ namespace Temporal::Game::Entities
     {
         public:
             Player();
-            virtual void render(SDL_Renderer* renderer);
+            virtual void render();
             virtual void update();
             virtual void end();
             void load(Temporal_Loading_Parameter* params);
