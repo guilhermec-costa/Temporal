@@ -1,6 +1,6 @@
 #pragma once
-#include "game/Temporal_SDL_Game_object.h"
-#include "game/factories/Temporal_Game_Object_factory.h"
+#include "game/Temporal_SDL_Game_Object.h"
+#include "game/factories/Temporal_Game_Object_Factory.h"
 
 namespace Factories = Temporal::Game::Factories;
 namespace Temporal::Game::Entities
@@ -24,5 +24,5 @@ namespace Temporal::Game::Entities
     };
 }
 
-typedef Temporal::Game::Entities::Player_Creator Player_Creator;
-typedef Temporal::Game::Entities::Player Player;
+using Player_Creator = Temporal::Game::Entities::Player_Creator;
+using Temporal_Player = Temporal::Game::Entities::Player;

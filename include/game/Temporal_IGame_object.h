@@ -1,6 +1,6 @@
 #pragma once
-#include "SDL2/SDL_render.h"
 #include <string>
+#include "SDL2/SDL_render.h"
 
 namespace Temporal::Game
 {
@@ -18,4 +18,4 @@ namespace Temporal::Game
     };
 }
 
-typedef Temporal::Game::Temporal_IGame_Object Game_Object;
+using Temporal_Game_Object = Temporal::Game::Temporal_IGame_Object;

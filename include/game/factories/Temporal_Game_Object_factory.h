@@ -1,7 +1,7 @@
 #pragma once
-#include "game/Temporal_IGame_object.h"
 #include <unordered_map>
 #include <string>
+#include "game/Temporal_IGame_Object.h"
 
 namespace Temporal::Game::Factories
 {
@@ -23,7 +23,7 @@ namespace Temporal::Game::Factories
         }
 
         bool register_type(const std::string &typeId, Temporal_Base_Creator* bc);
-        Game_Object *create(const std::string &typeId);
+        Temporal_Game_Object *create(const std::string &typeId);
 
     private:
         Temporal_Game_Object_Factory() = default;
@@ -35,5 +35,5 @@ namespace Temporal::Game::Factories
 
 }
 
-typedef Temporal::Game::Factories::Temporal_Game_Object_Factory Game_Object_Factory;
-typedef Temporal::Game::Factories::Temporal_Base_Creator Object_Base_Creator;
+using Game_Object_Factory = Temporal::Game::Factories::Temporal_Game_Object_Factory;
+using Object_Base_Creator = Temporal::Game::Factories::Temporal_Base_Creator;

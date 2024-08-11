@@ -1,7 +1,7 @@
 #pragma once
-#include "unordered_map"
+#include <unordered_map>
 #include <string>
-#include <SDL2/SDL_surface.h>
+#include "SDL2/SDL_surface.h"
 
 namespace Temporal::Utils
 {
@@ -25,3 +25,5 @@ namespace Temporal::Utils
         void clear_from_asset_map(const std::string& path);
     };
 }
+
+using Temporal_Asset_Manager = Temporal::Utils::Asset_Manager;

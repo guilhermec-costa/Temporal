@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 
 class IWindow {
 public:
@@ -22,3 +22,5 @@ namespace Temporal::Game
         const char* m_title;
     };
 };
+
+using Temporal_SDL_Window = Temporal::Game::Temporal_SDL_Window;

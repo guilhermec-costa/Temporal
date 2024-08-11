@@ -1,5 +1,6 @@
-#include "game/Temporal_SDL_Game_object.h"
-#include "utils/Temporal_Texture_manager.h"
+#include "game/Temporal_SDL_Game_Object.h"
+#include "utils/Temporal_Texture_Manager.h"
+
 namespace Temporal::Game {
     using Texture_Manager = Temporal::Utils::Temporal_Texture_Manager;
     Temporal_SDL_Game_Object::Temporal_SDL_Game_Object(): Temporal_IGame_Object(),

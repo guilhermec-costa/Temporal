@@ -1,5 +1,5 @@
 #include "utils/Temporal_Asset_Manager.h"
-#include "utils/Temporal_logger.h"
+#include "utils/Temporal_Logger.h"
 #include <SDL2/SDL_image.h>
 
 namespace Temporal::Utils

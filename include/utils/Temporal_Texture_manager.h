@@ -1,7 +1,7 @@
 #pragma once
-#include "SDL2/SDL_render.h"
-#include "unordered_map"
 #include <string>
+#include <unordered_map>
+#include "SDL2/SDL_render.h"
 
 namespace Temporal::Utils
 {
@@ -24,3 +24,5 @@ namespace Temporal::Utils
         std::unordered_map<std::string, SDL_Texture *> m_texture_map;
     };
 }
+
+using Temporal_Texture_Manager = Temporal::Utils::Temporal_Texture_Manager;

@@ -1,14 +1,15 @@
-#include "game/Temporal_game.h"
-#include "utils/Temporal_aliases.hpp"
-#include "game/factories/Temporal_Game_Object_factory.h"
-#include "game/entities/Temporal_Player.h"
-#include "SDL2/SDL_image.h"
 #include <iostream>
+#include "SDL2/SDL_image.h"
+#include "game/Temporal_Game.h"
+#include "game/factories/Temporal_Game_Object_Factory.h"
+#include "game/constants/Texture_Paths.hpp"
+#include "utils/Temporal_Logger.h"
+#include "utils/Temporal_Texture_Manager.h"
+#include "game/entities/Temporal_Player.h"
 
-SDL_Rect src_rect, dst_rect;
-SDL_Texture* player_texture;
-Player* player = nullptr;
-int TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
+Temporal_Player* player = nullptr;
+int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
+using namespace Temporal::Resources;
 
 namespace Temporal::Game
 {
@@ -22,10 +23,10 @@ namespace Temporal::Game
         if (m_is_executing)
             LOG_INFO("Temporal started!")
 
+        Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, renderer.get_renderer());
         Game_Object_Factory::get_instance().register_type("Player", new Player_Creator());
-        Temporal_Texture_Manager::get().load(Temporal_Resources::PLAYER_TEXTURE, m_main_renderer.get_renderer());
-        player = dynamic_cast<Player*>(Game_Object_Factory::get_instance().create("Player"));
-        player->load(Temporal_Resources::PLAYER_TEXTURE);
+        player = dynamic_cast<Temporal_Player*>(Game_Object_Factory::get_instance().create("Player"));
+        player->load(PLAYER_TEXTURE);
     }
 
     // must be done before game initialization
@@ -73,10 +74,7 @@ namespace Temporal::Game
 
     void TemporalGame::update()
     {
-        dst_rect.x = 10;
-        dst_rect.y = 10;
-        dst_rect.w = 128;
-        dst_rect.h = 128;
+        player->update();
     }
 
     void TemporalGame::render()
@@ -91,6 +89,7 @@ namespace Temporal::Game
     {
         m_main_renderer.destroy();
         m_main_window.destroy();
+        player->end();
         SDL_Quit();
     }
 

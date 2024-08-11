@@ -1,4 +1,4 @@
-#include "profiling/timer.hpp"
+#include "profiling/Temporal_Timer.hpp"
 
 std::unordered_map<std::type_index, const char *>
 Profiling::Time_Casting_Types::time_cast_map = {

@@ -1,6 +1,6 @@
-#include "game/Temporal_game.h"
-#include "utils/Temporal_logger.h"
-#include "game/components/Temporal_Texture_component.h"
+#include "game/Temporal_Game.h"
+#include "utils/Temporal_Logger.h"
+#include "game/components/Temporal_Texture_Component.h"
 
 namespace Temporal::Game
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include "Temporal_window.h"
+#include "game/Temporal_Window.h"
+
 namespace Temporal::Game
 {
     class Temporal_SDL_Renderer
@@ -14,3 +15,5 @@ namespace Temporal::Game
         SDL_Renderer *m_renderer;
     };
 };
+
+using Temporal_SDL_Renderer = Temporal::Game::Temporal_SDL_Renderer;

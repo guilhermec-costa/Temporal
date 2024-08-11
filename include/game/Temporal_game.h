@@ -1,6 +1,6 @@
 #pragma once
-#include "Temporal_window.h"
-#include "Temporal_renderer.h"
+#include "game/Temporal_Window.h"
+#include "game/Temporal_Renderer.h"
 
 namespace Temporal::Game
 {
@@ -32,3 +32,5 @@ namespace Temporal::Game
         static int IMG_system_flags; 
     };
 };
+
+using Temporal_Game = Temporal::Game::TemporalGame;

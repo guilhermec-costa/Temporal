@@ -1,6 +1,6 @@
 #include <iostream>
-#include "game/Temporal_renderer.h"
-#include "utils/Temporal_logger.h"
+#include "game/Temporal_Renderer.h"
+#include "utils/Temporal_Logger.h"
 
 namespace Temporal::Game {
     Temporal_SDL_Renderer::Temporal_SDL_Renderer(Temporal_SDL_Window& window)

@@ -54,3 +54,5 @@ using loglvls = Temporal::Utils::Log_Level;
 #define LOG_ERROR(message) Temporal::Utils::Logger::get().log(loglvls::ERROR, message);
 #define LOG_WARNING(message) Temporal::Utils::Logger::get().log(loglvls::WARNING, message);
 #define LOG_INFO(message) Temporal::Utils::Logger::get().log(loglvls::INFO, message);
+
+using Logger = Temporal::Utils::Logger;

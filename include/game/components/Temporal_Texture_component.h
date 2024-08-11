@@ -1,3 +1,4 @@
+#pragma once
 #include "SDL2/SDL_render.h"
 
 namespace Temporal::Game::Components
@@ -18,3 +19,5 @@ namespace Temporal::Game::Components
 		SDL_Renderer* m_renderer;
 	};
 }
+
+using Temporal_Texture_Component = Temporal::Game::Components::Texture_Component;

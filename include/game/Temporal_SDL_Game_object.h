@@ -1,6 +1,6 @@
 #pragma once
-#include "Temporal_IGame_object.h"
 #include <string>
+#include "Temporal_IGame_Object.h"
 #include "core/Vector2D.h"
 
 namespace Temporal::Game
@@ -25,3 +25,5 @@ namespace Temporal::Game
         std::string m_texture_path;
     };
 }
+
+using Temporal_SDL_Game_Object = Temporal::Game::Temporal_SDL_Game_Object;
