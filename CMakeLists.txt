@@ -36,7 +36,7 @@ set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
 set(SDL2_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL/x64")
 set(SDL2image_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL2image/x64")
 
-file(GLOB_RECURSE include_dirs "include/**/*.h")
+file(GLOB_RECURSE include_dirs "include/**/*.h" "include/**/*.hpp")
 
 include_directories(include ${SDL2_INCLUDE_DIR})
 link_directories(${SDL2_LIBRARY_DIR} ${SDL2image_LIBRARY_DIR})
