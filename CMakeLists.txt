@@ -28,7 +28,7 @@ endif()
 check_subdirectories("src" HAS_SUBDIR)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/**/*.cpp")
-message("files: " ${SOURCES})
+#message("files: " ${SOURCES})
 
 # SDL config
 
@@ -37,8 +37,9 @@ set(SDL2_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL/x64")
 set(SDL2image_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/SDL2image/x64")
 
 file(GLOB_RECURSE include_dirs "include/**/*.h" "include/**/*.hpp")
+#message(${include_dirs})
 
-include_directories(include ${SDL2_INCLUDE_DIR})
+include_directories(include_dirs ${SDL2_INCLUDE_DIR})
 link_directories(${SDL2_LIBRARY_DIR} ${SDL2image_LIBRARY_DIR})
 
 add_executable(${PROJECT_NAME} ${SOURCES})

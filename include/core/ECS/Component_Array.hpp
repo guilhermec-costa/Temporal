@@ -12,19 +12,25 @@ namespace Temporal::Core::ECS
     };
 
     // a packed array, in other words, there's no empty space between items. It is contiguous
+    // it is a wrapper around a std::array, but with packed-like funcionallity
+    // it is a array containing all the components of a giving type
     template <typename T>
     class Component_Array : public IComponent_Array
     {
     public:
+
+        // associates a component with an entity
         void Insert_Data(Entity e, T component)
         {
             size_t new_idx = m_size;
             m_entity_to_idx_map[e] = new_idx;
             m_idx_to_entity_map[new_idx] = e;
+
             m_components_array[new_idx] = component;
             m_size++;
         }
 
+        // disassociate a component from an entity 
         void Remove_Data(Entity e)
         {
             // gets the index from the component array of the entity that will be removed
@@ -47,6 +53,7 @@ namespace Temporal::Core::ECS
             m_size--;
         }
 
+        // gets the component of a giving type associated with an entity
         T &Get_Data(Entity e)
         {
             return m_components_array[m_entity_to_idx_map[e]];
@@ -62,7 +69,7 @@ namespace Temporal::Core::ECS
 
     private:
         // each array index represents an entity, and the value is the associated component
-        std::array<T, MAX_COMPONENTS> m_components_array;
+        std::array<T, MAX_ENTITIES> m_components_array;
     
         // map Entity->Array index
         std::unordered_map<Entity, size_t> m_entity_to_idx_map;

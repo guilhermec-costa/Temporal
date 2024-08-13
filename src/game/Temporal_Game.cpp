@@ -7,6 +7,8 @@
 #include "utils/Temporal_Texture_Manager.h"
 #include "game/entities/Temporal_Player.h"
 #include "game/map/Temporal_Tilemap.h"
+#include "core/ECS/ecs.hpp"
+#include "core/ECS/ECS_Orchestrator.hpp"
 
 using namespace Temporal::Resources;
 using namespace Temporal::Game::Map;
@@ -38,6 +40,7 @@ Temporal_Player *player = nullptr;
 Temporal_Tilemap *map = nullptr;
 int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
 Temporal_SDL_Renderer *Temporal::Game::TemporalGame::m_renderer = nullptr;
+ECS_Orchestrator gECS_Orchestrator;
 
 namespace Temporal::Game
 {
@@ -48,6 +51,7 @@ namespace Temporal::Game
         : m_main_window(window), m_max_framerate(60)
     {
         Temporal_SDL_Renderer *_renderer = new Temporal_SDL_Renderer(window);
+        gECS_Orchestrator.Init();
         m_renderer = _renderer;
         setup_core_systems();
         if (m_is_executing)
