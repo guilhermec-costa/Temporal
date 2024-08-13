@@ -10,7 +10,6 @@ namespace Temporal::Game
         TemporalGame(Temporal_SDL_Window &window);
         ~TemporalGame();
         Temporal_SDL_Window &get_wrapper_window() const;
-        SDL_Renderer *get_raw_renderer() const;
         SDL_Window *get_raw_window() const;
         uint32_t get_max_framerate() const;
         void set_max_framerate(uint32_t max_fr);

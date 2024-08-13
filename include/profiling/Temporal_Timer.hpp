@@ -30,7 +30,7 @@ namespace Profiling
         ~Timer();
         void stop();
         template <typename _time_unity>
-        const long long get_duration();
+        long long get_duration();
         void present(const long long duration);
 
     private:

@@ -32,7 +32,7 @@ void Profiling::Timer<__Ty>::stop()
 
 template <typename __Ty>
 template <typename _time_unity>
-const long long Profiling::Timer<__Ty>::get_duration()
+long long Profiling::Timer<__Ty>::get_duration()
 {
     auto end_time = Clock::now();
     long long casted_start_t = std::chrono::time_point_cast<_time_unity>(m_start_point).time_since_epoch().count();
