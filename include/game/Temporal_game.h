@@ -1,6 +1,7 @@
 #pragma once
 #include "game/Temporal_Window.h"
 #include "game/Temporal_Renderer.h"
+#include "core/ECS/systems/Position_System.hpp"
 
 namespace Temporal::Game
 {
@@ -18,6 +19,9 @@ namespace Temporal::Game
         void update();
         void render();
         void ends();
+        void register_ECS_components();
+        void register_ECS_systems();
+        void set_ECS_component_signatures();
         static Temporal_SDL_Renderer* m_renderer;
 
     private:
@@ -28,6 +32,7 @@ namespace Temporal::Game
         bool m_is_executing;
         unsigned int m_max_framerate;
         static int IMG_system_flags; 
+        std::shared_ptr<Position_System> m_position_system;
     };
 };
 

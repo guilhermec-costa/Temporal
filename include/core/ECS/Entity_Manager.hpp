@@ -21,7 +21,7 @@ namespace Temporal::Core::ECS
 
         Entity Create_Entity()
         {
-            assert(m_living_entities_counter < MAX_ENTITIES && "Too many entities");
+            //assert(m_living_entities_counter < MAX_ENTITIES && "Too many entities");
 
             Entity nextId = m_available_entities.front();
             m_available_entities.pop();

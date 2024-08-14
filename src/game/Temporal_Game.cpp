@@ -9,10 +9,13 @@
 #include "game/map/Temporal_Tilemap.h"
 #include "core/ECS/ecs.hpp"
 #include "core/ECS/ECS_Orchestrator.hpp"
+#include "core/ECS/components/Position_Component.hpp"
+#include "core/ECS/systems/Position_System.hpp"
 
 using namespace Temporal::Resources;
 using namespace Temporal::Game::Map;
-
+using namespace Temporal::Core::ECS;
+ECS_Orchestrator gECS_Orchestrator;
 
 int map_data[500] = {
     1, 1, 0, 0, 1, 0, 2, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0,
@@ -36,11 +39,10 @@ int map_data[500] = {
     1, 0, 0, 1, 2, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0,
     1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 2, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0};
 
-Temporal_Player *player = nullptr;
+Entity player;
 Temporal_Tilemap *map = nullptr;
 int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
 Temporal_SDL_Renderer *Temporal::Game::TemporalGame::m_renderer = nullptr;
-ECS_Orchestrator gECS_Orchestrator;
 
 namespace Temporal::Game
 {
@@ -51,19 +53,26 @@ namespace Temporal::Game
         : m_main_window(window), m_max_framerate(60)
     {
         Temporal_SDL_Renderer *_renderer = new Temporal_SDL_Renderer(window);
-        gECS_Orchestrator.Init();
         m_renderer = _renderer;
         setup_core_systems();
         if (m_is_executing)
             LOG_INFO("Temporal started!")
 
+        gECS_Orchestrator.Init();
+        register_ECS_components();
+        register_ECS_systems();
+        set_ECS_component_signatures();
+
         Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, m_renderer->get_renderer());
         Game_Object_Factory::get_instance().register_type("Player", new Player_Creator());
-        player = dynamic_cast<Temporal_Player *>(Game_Object_Factory::get_instance().create("Player"));
-        player->load(new Temporal_Loading_Parameter(30, 30, 128, 128, PLAYER_TEXTURE));
+        // player = dynamic_cast<Temporal_Player *>(Game_Object_Factory::get_instance().create("Player"));
+        // player->load(new Temporal_Loading_Parameter(30, 30, 128, 128, PLAYER_TEXTURE));
 
         map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
         map->load_map(map_data);
+
+        player = gECS_Orchestrator.Create_Entity();
+        gECS_Orchestrator.Add_Component<Position_Component>(player, Position_Component{1.0f, 2.0f});
     }
 
     // must be done before game initialization
@@ -110,14 +119,15 @@ namespace Temporal::Game
 
     void TemporalGame::update()
     {
-        player->update();
+        // player->update();
     }
 
     void TemporalGame::render()
     {
         SDL_RenderClear(m_renderer->get_renderer());
         map->render_map();
-        player->render();
+        m_position_system->update();
+        // player->render();
         SDL_RenderPresent(m_renderer->get_renderer());
     }
 
@@ -125,10 +135,30 @@ namespace Temporal::Game
     {
         m_renderer->destroy();
         m_main_window.destroy();
-        player->end();
+        gECS_Orchestrator.Destroy_Entity(player);
+        // player->end();
         SDL_Quit();
+    }
+
+    void TemporalGame::register_ECS_components()
+    {
+        gECS_Orchestrator.Register_Component<Position_Component>();
+    }
+
+    void TemporalGame::register_ECS_systems()
+    {
+        m_position_system = gECS_Orchestrator.Register_System<Position_System>();
+    }
+
+    void TemporalGame::set_ECS_component_signatures()
+    {
+        Component_Signature signature;
+        Component_Type position_component = gECS_Orchestrator.Get_Component_Type<Position_Component>();
+        signature.set(position_component);
+        gECS_Orchestrator.Set_System_Signature<Position_System>(signature);
     }
 
     uint32_t TemporalGame::get_max_framerate() const { return m_max_framerate; }
     void TemporalGame::set_max_framerate(uint32_t max_fr) { m_max_framerate = max_fr; }
+
 }

@@ -18,7 +18,6 @@ namespace Temporal::Core::ECS
     class Component_Array : public IComponent_Array
     {
     public:
-
         // associates a component with an entity
         void Insert_Data(Entity e, T component)
         {
@@ -30,7 +29,7 @@ namespace Temporal::Core::ECS
             m_size++;
         }
 
-        // disassociate a component from an entity 
+        // disassociate a component from an entity
         void Remove_Data(Entity e)
         {
             // gets the index from the component array of the entity that will be removed
@@ -41,7 +40,7 @@ namespace Temporal::Core::ECS
             // with the data of the last component
             m_components_array[idx_of_removed_entity] = m_components_array[idx_of_last_element];
 
-            // gets the entity associated with the last component 
+            // gets the entity associated with the last component
             Entity entity_of_last_element = m_idx_to_entity_map[idx_of_last_element];
 
             // updates the maps, to correspond to the new state of components arrays
@@ -61,7 +60,7 @@ namespace Temporal::Core::ECS
 
         void Entity_Destroyed(Entity e) override
         {
-            if(m_entity_to_idx_map.find(e) != m_entity_to_idx_map.end())
+            if (m_entity_to_idx_map.find(e) != m_entity_to_idx_map.end())
             {
                 Remove_Data(e);
             }
@@ -70,7 +69,7 @@ namespace Temporal::Core::ECS
     private:
         // each array index represents an entity, and the value is the associated component
         std::array<T, MAX_ENTITIES> m_components_array;
-    
+
         // map Entity->Array index
         std::unordered_map<Entity, size_t> m_entity_to_idx_map;
 

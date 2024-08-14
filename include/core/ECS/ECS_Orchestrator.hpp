@@ -16,9 +16,9 @@ namespace Temporal::Core::ECS {
                 m_system_manager = std::make_unique<System_Manager>();
             }
 
-            void Create_Entity()
+            Entity Create_Entity()
             {
-                m_entity_manager->Create_Entity();
+                return m_entity_manager->Create_Entity();
             }
 
             void Destroy_Entity(Entity entity)

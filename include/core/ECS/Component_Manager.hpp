@@ -13,12 +13,12 @@ namespace Temporal::Core::ECS
         template <typename T>
         void Register_Component()
         {
-            const char *type_name = typeid(T).name;
+            const char *type_name = typeid(T).name();
 
             // associate the new component type with a type name
             m_component_types.insert(std::make_pair(type_name, m_next_component_type));
 
-            // associate a components array of a giving type with a type name
+            // creates a pointer to an array of the type of the component and associates with the type name of the component
             m_component_arrays.insert(std::make_pair(type_name, std::make_shared<Component_Array<T>>()));
 
             // increments the component type id
@@ -29,7 +29,7 @@ namespace Temporal::Core::ECS
         template <typename T>
         Component_Type Get_Component_Type()
         {
-            const char *type_name = typeid(T).name;
+            const char *type_name = typeid(T).name();
 
             // used for creating component signatures
             return m_component_types[type_name];
@@ -53,15 +53,15 @@ namespace Temporal::Core::ECS
         template<typename T>
         T& Get_Component(Entity e)
         {
-            Get_Component_Array<T>()->Get_Data(e);
+            return Get_Component_Array<T>()->Get_Data(e);
         }
 
         void Entity_Destroyed_Event(Entity e)
         {
             for(auto const& pair : m_component_arrays)
             {
-                auto const& component = pair.second;
-                component->Entity_Destroyed(e);
+                auto const& component_array = pair.second;
+                component_array->Entity_Destroyed(e);
             }
         }
 
@@ -77,7 +77,7 @@ namespace Temporal::Core::ECS
         template <typename T>
         std::shared_ptr<Component_Array<T>> Get_Component_Array()
         {
-            const char *type_name = typeid(T).name;
+            const char *type_name = typeid(T).name();
             // converts IComponentArray to Component_Array<T>
             return std::static_pointer_cast<Component_Array<T>>(m_component_arrays[type_name]);
         }

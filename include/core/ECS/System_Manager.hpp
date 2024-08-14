@@ -15,7 +15,7 @@ namespace Temporal::Core::ECS {
             // associates a system with a system name
             std::shared_ptr<T> Register_System()
             {
-                const char* type_name = typeid(T).name;
+                const char* type_name = typeid(T).name();
                 std::shared_ptr<T> system = std::make_shared<T>();
                 m_systems.insert(std::make_pair(type_name, system));
                 return system;
@@ -24,10 +24,11 @@ namespace Temporal::Core::ECS {
             template<typename T>
             void Set_Signature(Component_Signature signature)
             {
-                const char* type_name = typeid(T).name;
+                const char* type_name = typeid(T).name();
                 m_signatures.insert(std::make_pair(type_name, signature));
             }
 
+            // removes a given entity from the entities that this system is responsible for
             void Entity_Destroyed_Event(Entity e)
             {
                 for(const auto& pair : m_systems)
@@ -57,9 +58,10 @@ namespace Temporal::Core::ECS {
             }
 
         private:
+            // map from a system name to a system pointer
             std::unordered_map<const char*, std::shared_ptr<System>> m_systems;
 
-            // the signature that the system will operate on
+            // map from a system name to a component signature
             std::unordered_map<const char*, Component_Signature> m_signatures;
     };
 }
