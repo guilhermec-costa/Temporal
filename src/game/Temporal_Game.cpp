@@ -7,10 +7,9 @@
 #include "utils/Temporal_Texture_Manager.h"
 #include "game/entities/Temporal_Player.h"
 #include "game/map/Temporal_Tilemap.h"
-#include "core/ECS/ecs.hpp"
 #include "core/ECS/ECS_Orchestrator.hpp"
 #include "core/ECS/components/Position_Component.hpp"
-#include "core/ECS/systems/Position_System.hpp"
+#include "core/ECS/components/Sprite_Component.hpp"
 
 using namespace Temporal::Resources;
 using namespace Temporal::Game::Map;
@@ -64,15 +63,14 @@ namespace Temporal::Game
         set_ECS_component_signatures();
 
         Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, m_renderer->get_renderer());
-        Game_Object_Factory::get_instance().register_type("Player", new Player_Creator());
-        // player = dynamic_cast<Temporal_Player *>(Game_Object_Factory::get_instance().create("Player"));
-        // player->load(new Temporal_Loading_Parameter(30, 30, 128, 128, PLAYER_TEXTURE));
 
         map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
         map->load_map(map_data);
 
         player = gECS_Orchestrator.Create_Entity();
         gECS_Orchestrator.Add_Component<Position_Component>(player, Position_Component{1.0f, 2.0f});
+        gECS_Orchestrator.Add_Component<Sprite_Component>(
+            player, Sprite_Component{PLAYER_TEXTURE, gECS_Orchestrator.Get_Component<Position_Component>(player)});
     }
 
     // must be done before game initialization
@@ -143,6 +141,7 @@ namespace Temporal::Game
     void TemporalGame::register_ECS_components()
     {
         gECS_Orchestrator.Register_Component<Position_Component>();
+        gECS_Orchestrator.Register_Component<Sprite_Component>();
     }
 
     void TemporalGame::register_ECS_systems()
