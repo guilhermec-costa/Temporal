@@ -14,10 +14,4 @@ namespace Temporal::Core::ECS
     // each entity can have a component signature, with identifies which components that entity "has"
     // in this case, a component can have 32 different components
     using Component_Signature = std::bitset<MAX_COMPONENTS>;
-
-    class Component
-    {
-    public:
-        virtual ~Component() = default;
-    };
 }

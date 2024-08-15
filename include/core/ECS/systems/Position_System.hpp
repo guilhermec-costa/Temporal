@@ -18,8 +18,17 @@ namespace Temporal::Core::ECS::Systems
             for (auto const &entity : m_entites)
             {
                 auto &position = gECS_Orchestrator.Get_Component<Position_Component>(entity);
-                position.set_x(position.x + 1);
-                position.set_y(position.y + 1);
+                if(entity == 0)
+                {
+                    position.set_x(position.x + 1);
+                    position.set_y(position.y + 1);
+                } 
+                if(entity == 1)
+                {
+
+                    position.set_x(position.x + 1);
+                    position.set_y(position.y + 1);
+                }
             }
         }
     };

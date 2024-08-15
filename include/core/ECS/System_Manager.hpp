@@ -2,7 +2,6 @@
 #include <memory>
 #include <unordered_map>
 #include "core/ECS/System.hpp"
-#include "core/ECS/ecs.hpp"
 
 namespace Temporal::Core::ECS {
     // Maintain a record of registered systems and their signatures.
@@ -40,11 +39,11 @@ namespace Temporal::Core::ECS {
 
             void Entity_Signature_Changed_Event(Entity entity, Component_Signature entity_signature)
             {
-                for(const auto& pair : m_systems)
+                for(auto const& pair : m_systems)
                 {
-                    const auto& type = pair.first;
-                    const auto& system = pair.second;
-                    const auto& system_signature = m_signatures[type];
+                    auto const& type = pair.first;
+                    auto const& system = pair.second;
+                    auto const& system_signature = m_signatures[type];
 
                     if((entity_signature & system_signature) == system_signature)
                     {
@@ -59,9 +58,9 @@ namespace Temporal::Core::ECS {
 
         private:
             // map from a system name to a system pointer
-            std::unordered_map<const char*, std::shared_ptr<System>> m_systems;
+            std::unordered_map<const char*, std::shared_ptr<System>> m_systems{};
 
             // map from a system name to a component signature
-            std::unordered_map<const char*, Component_Signature> m_signatures;
+            std::unordered_map<const char*, Component_Signature> m_signatures{};
     };
 }

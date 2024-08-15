@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include <string>
-#include "SDL2/SDL_surface.h"
+#include <SDL2/SDL_surface.h>
 
 namespace Temporal::Utils
 {

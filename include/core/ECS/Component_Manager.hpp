@@ -1,7 +1,6 @@
 #pragma once
 #include <unordered_map>
 #include <memory>
-#include "core/ECS/ecs.hpp"
 #include "core/ECS/Component_Array.hpp"
 
 namespace Temporal::Core::ECS
@@ -14,12 +13,13 @@ namespace Temporal::Core::ECS
         void Register_Component()
         {
             const char *type_name = typeid(T).name();
+            assert(m_component_types.find(type_name) == m_component_types.end() && "Registering component type more than once.");
 
             // associate the new component type with a type name
-            m_component_types.insert(std::make_pair(type_name, m_next_component_type));
+            m_component_types.insert({type_name, m_next_component_type});
 
             // creates a pointer to an array of the type of the component and associates with the type name of the component
-            m_component_arrays.insert(std::make_pair(type_name, std::make_shared<Component_Array<T>>()));
+            m_component_arrays.insert({type_name, std::make_shared<Component_Array<T>>()});
 
             // increments the component type id
             m_next_component_type++;

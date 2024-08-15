@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "SDL2/SDL_render.h"
+#include <SDL2/SDL_render.h>
 #include "game/Temporal_Loading_Parameters.h"
 
 namespace Temporal::Game

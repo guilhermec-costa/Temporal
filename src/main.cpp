@@ -19,7 +19,7 @@ int main()
     Profiling::Timer<time_casts::Milliseconds> timer("main");
 
     Temporal_Asset_Manager::get().load_asset(PLAYER_TEXTURE);
-    Temporal_Asset_Manager::get().load_asset(PLAYER_SPRITE);
+    Temporal_Asset_Manager::get().load_asset(BLOCKS);
 
     Temporal_SDL_Window window("Temporal", 800, 640);
     Temporal_Game temporalGame(window);

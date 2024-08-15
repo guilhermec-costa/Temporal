@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "SDL2/SDL_render.h"
+#include <SDL2/SDL_render.h>
 
 namespace Temporal::Utils
 {

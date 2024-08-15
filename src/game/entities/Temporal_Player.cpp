@@ -1,5 +1,5 @@
 #include "game/entities/Temporal_Player.h"
-#include "SDL2/SDL_render.h"
+#include <SDL2/SDL_render.h>
 namespace Temporal::Game::Entities
 {
     Temporal::Game::Entities::Player::Player::Player(): Temporal_SDL_Game_Object()

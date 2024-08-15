@@ -1,9 +1,9 @@
-#include "utils/Temporal_Logger.h"
 #include <iostream>
 #include <chrono>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include "utils/Temporal_Logger.h"
 
 // mutex objects protects a critical code section, so that only the current thread can access it
 // avoiding race condition

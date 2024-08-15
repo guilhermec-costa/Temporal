@@ -1,7 +1,7 @@
 #include <string>
+#include "game/Temporal_Game.h"
 #include "game/Temporal_SDL_Game_Object.h"
 #include "utils/Temporal_Texture_Manager.h"
-#include "game/Temporal_Game.h"
 
 namespace Temporal::Game {
     using Texture_Manager = Temporal::Utils::Temporal_Texture_Manager;

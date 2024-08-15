@@ -1,7 +1,7 @@
+#include <iostream>
 #include "utils/Temporal_Texture_Manager.h"
 #include "utils/Temporal_Asset_Manager.h"
 #include "utils/Temporal_Logger.h"
-#include <iostream>
 
 namespace Temporal::Utils
 {

@@ -1,9 +1,9 @@
+#include <iostream>
+#include <array>
 #include "game/map/Temporal_Tilemap.h"
 #include "utils/Temporal_Texture_Manager.h"
 #include "game/Temporal_Game.h"
 #include "game/constants/Texture_Paths.hpp"
-#include <iostream>
-#include <array>
 
 namespace Temporal::Game::Map
 {

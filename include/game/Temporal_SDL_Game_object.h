@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "game/Temporal_IGame_Object.h"
-#include "game/Temporal_Loading_Parameters.h"
 #include "core/Vector2D.h"
 
 namespace Temporal::Game

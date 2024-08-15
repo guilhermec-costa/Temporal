@@ -1,21 +1,22 @@
 #pragma once
-
-#include "core/ECS/components/Position_Component.hpp"
 #include <SDL2/SDL_render.h>
+#include <string>
+#include "core/ECS/ecs.hpp"
 
 namespace Temporal::Core::ECS::Components
 {
-    struct Sprite_Component : public Component
+    struct Sprite_Component
     {
-        Sprite_Component(const std::string &texture_path, Position_Component &pos_cp)
-            : m_texture_path(texture_path), m_position_component(pos_cp) {}
-        std::string &get_texture_path() { return m_texture_path; }
-        void set_texture_path(const std::string &_path) { m_texture_path = _path; }
-        Position_Component &get_position_component() { return m_position_component; }
+        float x, y;
+        const char* m_texture_path;
+        int m_width, m_height;
 
-    private:
-        Position_Component &m_position_component;
-        std::string m_texture_path;
+        Sprite_Component(const char* path, int w, int h) : m_texture_path(path), m_width(w), m_height(h) {}
+
+        float get_x() const { return x; }
+        float get_y() const { return y; }
+        void set_x(float _x) { x = _x; }
+        void set_y(float _y) { y = _y; }
     };
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <assert.h>
 #include "core/ECS/ecs.hpp"
 
 namespace Temporal::Core::ECS
@@ -18,15 +19,20 @@ namespace Temporal::Core::ECS
     class Component_Array : public IComponent_Array
     {
     public:
+        Component_Array() : m_size(0)
+        {
+            m_components_array.reserve(MAX_ENTITIES);
+        }
         // associates a component with an entity
         void Insert_Data(Entity e, T component)
         {
+            assert(m_entity_to_idx_map.find(e) == m_entity_to_idx_map.end() && "Component added to same entity more than once.");
+
             size_t new_idx = m_size;
             m_entity_to_idx_map[e] = new_idx;
             m_idx_to_entity_map[new_idx] = e;
-
             m_components_array[new_idx] = component;
-            m_size++;
+            ++m_size;
         }
 
         // disassociate a component from an entity
@@ -49,7 +55,7 @@ namespace Temporal::Core::ECS
 
             m_entity_to_idx_map.erase(e);
             m_idx_to_entity_map.erase(idx_of_last_element);
-            m_size--;
+            --m_size;
         }
 
         // gets the component of a giving type associated with an entity
@@ -68,7 +74,7 @@ namespace Temporal::Core::ECS
 
     private:
         // each array index represents an entity, and the value is the associated component
-        std::array<T, MAX_ENTITIES> m_components_array;
+        std::vector<T> m_components_array;
 
         // map Entity->Array index
         std::unordered_map<Entity, size_t> m_entity_to_idx_map;

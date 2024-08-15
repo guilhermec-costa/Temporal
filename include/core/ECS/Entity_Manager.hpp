@@ -1,9 +1,9 @@
 #pragma once
-#include "core/ECS/ecs.hpp"
 #include <queue>
 #include <array>
 #include <stdint.h>
 #include <cassert>
+#include "core/ECS/ecs.hpp"
 
 namespace Temporal::Core::ECS
 {
