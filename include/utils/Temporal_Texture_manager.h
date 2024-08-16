@@ -16,6 +16,7 @@ namespace Temporal::Utils
 
         SDL_Texture *load(const std::string& path, SDL_Renderer *renderer);
         void draw(std::string txtId, const int x, const int y, const int w, const int h, SDL_Renderer* renderer);
+        void draw(std::string textId, const SDL_Rect& src,const SDL_Rect& dst, SDL_Renderer* renderer);
 
     private:
         Temporal_Texture_Manager() = default;

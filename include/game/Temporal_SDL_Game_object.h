@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 #include "game/Temporal_IGame_Object.h"
-#include "core/Vector2D.h"
+#include "core/math/Vector2D.h"
 
 namespace Temporal::Game
 {
     class Temporal_SDL_Game_Object : public Temporal_IGame_Object
     {
-        using Vector2D = Temporal::Core::Vector2D;
+        using Vector2D = Temporal::Core::Math::Vector2D;
 
     public:
         Temporal_SDL_Game_Object();

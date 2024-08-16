@@ -9,14 +9,10 @@ namespace Temporal::Core::ECS::Components
     {
         float x, y;
         const char* m_texture_path;
-        int m_width, m_height;
+        SDL_Rect m_src_rect, m_dst_rect;
 
-        Sprite_Component(const char* path, int w, int h) : m_texture_path(path), m_width(w), m_height(h) {}
-
-        float get_x() const { return x; }
-        float get_y() const { return y; }
-        void set_x(float _x) { x = _x; }
-        void set_y(float _y) { y = _y; }
+        Sprite_Component(const char* path, const SDL_Rect& src_rect, const SDL_Rect& dst_rect) 
+            : m_texture_path(path), m_src_rect(src_rect), m_dst_rect(dst_rect) {}
     };
 }
 

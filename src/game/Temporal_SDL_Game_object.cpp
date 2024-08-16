@@ -14,8 +14,8 @@ namespace Temporal::Game {
     {
         Texture_Manager::get().draw(
             m_texture_path, 
-            static_cast<int>(m_position.get_x()), 
-            static_cast<int>(m_position.get_y()), 
+            static_cast<int>(m_position.m_x), 
+            static_cast<int>(m_position.m_y), 
             m_width, m_height, Temporal_Game::m_renderer->get_renderer()
         );
     }

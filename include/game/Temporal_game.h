@@ -1,7 +1,7 @@
 #pragma once
 #include "game/Temporal_Window.h"
 #include "game/Temporal_Renderer.h"
-#include "core/ECS/systems/Position_System.hpp"
+#include "core/ECS/systems/Transform_System.hpp"
 #include "core/ECS/systems/Render_System.hpp"
 
 namespace Temporal::Game

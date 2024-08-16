@@ -1,7 +1,7 @@
 #pragma once
 #include "core/ECS/System.hpp"
 #include "core/ECS/ECS_Orchestrator.hpp"
-#include "core/ECS/components/Position_Component.hpp"
+#include "core/ECS/components/Transform_Component.hpp"
 #include <iostream>
 
 using namespace Temporal::Core::ECS;
@@ -17,18 +17,9 @@ namespace Temporal::Core::ECS::Systems
         {
             for (auto const &entity : m_entites)
             {
-                auto &position = gECS_Orchestrator.Get_Component<Position_Component>(entity);
-                if(entity == 0)
-                {
-                    position.set_x(position.x + 1);
-                    position.set_y(position.y + 1);
-                } 
-                if(entity == 1)
-                {
-
-                    position.set_x(position.x + 1);
-                    position.set_y(position.y + 1);
-                }
+                auto &transform = gECS_Orchestrator.Get_Component<Transform_Component>(entity);
+                Vector2D current_position = transform.get_position();
+                transform.set_position(current_position.add(Vector2D(1, 0)));
             }
         }
     };

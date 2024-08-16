@@ -14,16 +14,16 @@ namespace Temporal::Core::ECS::Systems
     class Render_System : public System
     {
     public:
-        void render(SDL_Renderer* renderer)
+        void render(SDL_Renderer *renderer)
         {
             for (auto const &entity : m_entites)
             {
                 auto &sprite = gECS_Orchestrator.Get_Component<Sprite_Component>(entity);
-                auto &position = gECS_Orchestrator.Get_Component<Position_Component>(entity);
+                auto &transform = gECS_Orchestrator.Get_Component<Transform_Component>(entity);
+                sprite.m_dst_rect.x = transform.get_position().m_x;
+                sprite.m_dst_rect.y = transform.get_position().m_y;
                 Temporal_Texture_Manager::get().draw(
-                    sprite.m_texture_path,
-                    (int)position.get_x(), (int)position.get_y(),
-                    sprite.m_width, sprite.m_height, renderer);
+                    sprite.m_texture_path, sprite.m_src_rect, sprite.m_dst_rect, renderer);
             }
         }
     };

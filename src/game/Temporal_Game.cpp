@@ -6,7 +6,7 @@
 #include "utils/Temporal_Texture_Manager.h"
 #include "game/map/Temporal_Tilemap.h"
 #include "core/ECS/ECS_Orchestrator.hpp"
-#include "core/ECS/components/Position_Component.hpp"
+#include "core/ECS/components/Transform_Component.hpp"
 #include "core/ECS/components/Sprite_Component.hpp"
 
 using namespace Temporal::Resources;
@@ -36,7 +36,8 @@ int map_data[500] = {
     1, 0, 0, 1, 2, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0,
     1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 2, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0};
 
-Entity player;
+Entity player1;
+std::array<Entity, 47> entities;
 Temporal_Tilemap *map = nullptr;
 int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
 Temporal_SDL_Renderer *Temporal::Game::TemporalGame::m_renderer = nullptr;
@@ -58,13 +59,24 @@ namespace Temporal::Game
         set_ECS_component_signatures();
 
         Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, m_renderer->get_renderer());
+        Temporal_Texture_Manager::get().load(BLOCKS, m_renderer->get_renderer());
 
-        map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
-        map->load_map(map_data);
+        // map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
+        // map->load_map(map_data);
 
-        player = gECS_Orchestrator.Create_Entity();
-        gECS_Orchestrator.Add_Component(player, Position_Component{1.0f, 2.0f});
-        gECS_Orchestrator.Add_Component(player, Sprite_Component{PLAYER_TEXTURE, 64, 64});
+        player1 = gECS_Orchestrator.Create_Entity();
+        gECS_Orchestrator.Add_Component(player1,
+                                        Transform_Component{
+                                            Vector2D(100, 100),
+                                            0.0f,
+                                            Vector2D{1, 1}});
+
+        gECS_Orchestrator.Add_Component(player1,
+                                        Sprite_Component{
+                                            PLAYER_TEXTURE,
+                                            SDL_Rect{0, 0, 32, 32},
+                                            SDL_Rect{100, 133, 64, 64}});
+
     }
 
     // must be done before game initialization
@@ -117,14 +129,13 @@ namespace Temporal::Game
     void TemporalGame::render()
     {
         SDL_RenderClear(m_renderer->get_renderer());
-        map->render_map();
+        // map->render_map();
         m_render_system->render(m_renderer->get_renderer());
         SDL_RenderPresent(m_renderer->get_renderer());
     }
 
     void TemporalGame::ends()
     {
-        gECS_Orchestrator.Destroy_Entity(player);
         m_renderer->destroy();
         m_main_window.destroy();
         // player->end();
@@ -133,8 +144,8 @@ namespace Temporal::Game
 
     void TemporalGame::register_ECS_components()
     {
+        gECS_Orchestrator.Register_Component<Transform_Component>();
         gECS_Orchestrator.Register_Component<Sprite_Component>();
-        gECS_Orchestrator.Register_Component<Position_Component>();
     }
 
     void TemporalGame::register_ECS_systems()
@@ -146,7 +157,7 @@ namespace Temporal::Game
     void TemporalGame::set_ECS_component_signatures()
     {
         Component_Signature position_system_signature;
-        Component_Type position_component = gECS_Orchestrator.Get_Component_Type<Position_Component>();
+        Component_Type position_component = gECS_Orchestrator.Get_Component_Type<Transform_Component>();
         position_system_signature.set(position_component);
         gECS_Orchestrator.Set_System_Signature<Position_System>(position_system_signature);
 
