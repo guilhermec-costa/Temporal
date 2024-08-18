@@ -23,6 +23,7 @@ namespace Temporal::Game
         void register_ECS_components();
         void register_ECS_systems();
         void set_ECS_component_signatures();
+        void register_event_handlers();
         static Temporal_SDL_Renderer* m_renderer;
 
     private:
@@ -35,6 +36,7 @@ namespace Temporal::Game
         static int IMG_system_flags; 
         std::shared_ptr<Position_System> m_position_system;
         std::shared_ptr<Render_System> m_render_system;
+        static SDL_Event m_event;
     };
 };
 

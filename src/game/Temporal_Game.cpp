@@ -8,11 +8,16 @@
 #include "core/ECS/ECS_Orchestrator.hpp"
 #include "core/ECS/components/Transform_Component.hpp"
 #include "core/ECS/components/Sprite_Component.hpp"
+#include "game/events/Move_Event.h"
+#include "game/events/event.h"
+#include "game/events/Temporal_Event_Manager.h"
 
 using namespace Temporal::Resources;
 using namespace Temporal::Game::Map;
 using namespace Temporal::Core::ECS;
+using namespace Temporal::Game::Events;
 ECS_Orchestrator gECS_Orchestrator;
+Temporal_Event_Manager gEvent_manager;
 
 int map_data[500] = {
     1, 1, 0, 0, 1, 0, 2, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0,
@@ -36,11 +41,11 @@ int map_data[500] = {
     1, 0, 0, 1, 2, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0,
     1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 2, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0};
 
-Entity player1;
-std::array<Entity, 47> entities;
+Entity player;
 Temporal_Tilemap *map = nullptr;
 int Temporal::Game::TemporalGame::IMG_system_flags = IMG_INIT_JPG | IMG_INIT_PNG;
 Temporal_SDL_Renderer *Temporal::Game::TemporalGame::m_renderer = nullptr;
+SDL_Event Temporal_Game::m_event;
 
 namespace Temporal::Game
 {
@@ -49,34 +54,38 @@ namespace Temporal::Game
     {
         Temporal_SDL_Renderer *_renderer = new Temporal_SDL_Renderer(window);
         m_renderer = _renderer;
-        setup_core_systems();
+
+        this->setup_core_systems();
         if (m_is_executing)
             LOG_INFO("Temporal started!")
 
         gECS_Orchestrator.Init();
-        register_ECS_components();
-        register_ECS_systems();
-        set_ECS_component_signatures();
+        this->register_ECS_components();
+        this->register_ECS_systems();
+        this->set_ECS_component_signatures();
+        this->register_event_handlers();
 
         Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, m_renderer->get_renderer());
         Temporal_Texture_Manager::get().load(BLOCKS, m_renderer->get_renderer());
 
-        // map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
-        // map->load_map(map_data);
+        map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
+        map->load_map(map_data);
 
-        player1 = gECS_Orchestrator.Create_Entity();
-        gECS_Orchestrator.Add_Component(player1,
+        player = gECS_Orchestrator.Create_Entity();
+        gECS_Orchestrator.Add_Component(player,
                                         Transform_Component{
                                             Vector2D(100, 100),
                                             0.0f,
                                             Vector2D{1, 1}});
 
-        gECS_Orchestrator.Add_Component(player1,
+        gECS_Orchestrator.Add_Component(player,
                                         Sprite_Component{
                                             PLAYER_TEXTURE,
                                             SDL_Rect{0, 0, 32, 32},
-                                            SDL_Rect{100, 133, 64, 64}});
-
+                                            SDL_Rect{
+                                                (int)gECS_Orchestrator.Get_Component<Transform_Component>(player).get_position().m_x,
+                                                (int)gECS_Orchestrator.Get_Component<Transform_Component>(player).get_position().m_y,
+                                                64, 64}});
     }
 
     // must be done before game initialization
@@ -109,16 +118,28 @@ namespace Temporal::Game
 
     void TemporalGame::process_inputs()
     {
-        SDL_Event event;
-        SDL_PollEvent(&event);
-        switch (event.type)
+        SDL_PollEvent(&m_event);
+        switch (m_event.type)
         {
         case SDL_QUIT:
             m_is_executing = false;
             break;
+
+        case SDL_KEYDOWN:
+        {
+            switch (m_event.key.keysym.sym)
+            {
+            case SDLK_d:
+                Move_Event* event = new Move_Event(player, -3.0f, 0.0f);
+                gEvent_manager.publish(event);
+                break;
+            }
+            break;
+        }
         default:
             break;
         }
+        gEvent_manager.react();
     }
 
     void TemporalGame::update()
@@ -166,6 +187,12 @@ namespace Temporal::Game
         render_system_signature.set(position_component);
         render_system_signature.set(sprite_component);
         gECS_Orchestrator.Set_System_Signature<Render_System>(render_system_signature);
+    }
+
+    void Temporal_Game::register_event_handlers()
+    {
+        auto *handler = new Move_Event_Handler();
+        gEvent_manager.register_handler(Event_Type::Move, handler);
     }
 
     uint32_t TemporalGame::get_max_framerate() const { return m_max_framerate; }

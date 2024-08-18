@@ -19,7 +19,7 @@ namespace Temporal::Core::ECS::Systems
             {
                 auto &transform = gECS_Orchestrator.Get_Component<Transform_Component>(entity);
                 Vector2D current_position = transform.get_position();
-                transform.set_position(current_position.add(Vector2D(1, 0)));
+                // transform.set_position(current_position.add(Vector2D(1, 0)));
             }
         }
     };

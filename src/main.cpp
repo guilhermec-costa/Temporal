@@ -15,13 +15,13 @@ int main()
 {
     Logger::get().set_log_level(loglvls::DEBUG);
 
-    using time_casts = Profiling::Time_Casting_Types;
-    Profiling::Timer<time_casts::Milliseconds> timer("main");
+    // using time_casts = Profiling::Time_Casting_Types;
+    // Profiling::Timer<time_casts::Milliseconds> timer("main");
 
     Temporal_Asset_Manager::get().load_asset(PLAYER_TEXTURE);
     Temporal_Asset_Manager::get().load_asset(BLOCKS);
 
-    Temporal_SDL_Window window("Temporal", 1900, 780);
+    Temporal_SDL_Window window("Temporal", 800, 640);
     Temporal_Game temporalGame(window);
     temporalGame.set_max_framerate(120);
 
