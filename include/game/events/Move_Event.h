@@ -3,32 +3,36 @@
 #include "core/ECS/ecs.hpp"
 #include "game/events/event.h"
 
-extern ECS_Orchestrator gECS_Orchestrator;
+using Entity = Temporal::Core::ECS::Entity;
 
 namespace Temporal::Game::Events
 {
+    enum Move_Event_Type
+    {
+        Move_UP,
+        Move_DOWN,
+        Move_LEFT,
+        Move_RIGHT,
+        Stop_UP,
+        Stop_DOWN,
+        Stop_LEFT,
+        Stop_RIGHT
+    };
+
     struct Move_Event : public Event
     {
-        Vector2D m_move_by;
-        Temporal::Core::ECS::Entity m_entity;
-        Move_Event(Entity e, float x, float y)
-            : Event(Event_Type::Move), m_entity(e), m_move_by(x, y) {};
+        Move_Event_Type m_move_type;
+        Move_Event(Entity e, Move_Event_Type type)
+            : Event(e, typeid(Move_Event).name()), m_move_type(type) {}
     };
 
     struct Move_Event_Handler : public Event_Handler
     {
         Move_Event_Handler() = default;
-        void react(Event *event)
-        {
-            Move_Event *move_event = dynamic_cast<Move_Event *>(event);
-            auto &pos_cp = gECS_Orchestrator.Get_Component<Transform_Component>(move_event->m_entity);
-            Vector2D current_position = pos_cp.get_position();
-            std::cout << "moving" << std::endl;
-            pos_cp.set_position(current_position.add(
-                {Vector2D{move_event->m_move_by.m_x, move_event->m_move_by.m_y}}));
-        }
+        void react(Event *event);
     };
 }
 
 using Move_Event = Temporal::Game::Events::Move_Event;
 using Move_Event_Handler = Temporal::Game::Events::Move_Event_Handler;
+using Move_Event_Type = Temporal::Game::Events::Move_Event_Type;

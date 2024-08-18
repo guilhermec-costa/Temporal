@@ -4,18 +4,15 @@
 
 namespace Temporal::Game::Events
 {
-    enum Event_Type
-    {
-        Move,
-        Jump,
-    };
 
     struct Event
     {
-        Temporal::Core::ECS::Entity entity;
-        Event_Type type;
+        Temporal::Core::ECS::Entity m_entity;
+        const char* m_type_name;
         virtual ~Event() = default;
-        Event(Event_Type type) : type(type) {};
+        Event(Temporal::Core::ECS::Entity e, const char* type)
+            : m_entity(e), m_type_name(type) {}
+
     };
 
     struct Event_Handler

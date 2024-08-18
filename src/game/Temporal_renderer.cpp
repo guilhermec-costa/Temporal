@@ -11,7 +11,7 @@ namespace Temporal::Game {
         {
             LOG_ERROR("Failed to create Temporal's Game Renderer");
         }
-        SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
         LOG_INFO("Temporal's SDL Renderer created!")
     };
 

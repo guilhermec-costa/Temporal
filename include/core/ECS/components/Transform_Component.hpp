@@ -11,19 +11,18 @@ namespace Temporal::Core::ECS::Components
         Transform_Component(Vector2D position, float rotation, Vector2D scale)
             : m_position(position), m_rotation(rotation), m_scale(scale) {}
 
-        Vector2D get_position() const { return m_position; }
-        void set_position(Vector2D position) { m_position = position; }
-
-        float get_rotation() const { return m_rotation; }
-        void set_rotation(float rotation) { m_rotation = rotation; }
-
-        Vector2D get_scale() const { return m_scale; }
-        void set_scale(Vector2D scale) { m_scale = scale; }
-
-    private:
         Vector2D m_position;
         float m_rotation;
         Vector2D m_scale;
+
+        Vector2D get_position() const { return m_position; }
+        void set_position(Vector2D position) { m_position = position; }
+
+        // float get_rotation() const { return m_rotation; }
+        // void set_rotation(float rotation) { m_rotation = rotation; }
+
+        // Vector2D get_scale() const { return m_scale; }
+        // void set_scale(Vector2D scale) { m_scale = scale; }
     };
 }
 

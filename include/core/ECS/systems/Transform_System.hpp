@@ -2,6 +2,7 @@
 #include "core/ECS/System.hpp"
 #include "core/ECS/ECS_Orchestrator.hpp"
 #include "core/ECS/components/Transform_Component.hpp"
+#include "core/ECS/components/Velocity_Component.hpp"
 #include <iostream>
 
 using namespace Temporal::Core::ECS;
@@ -18,8 +19,9 @@ namespace Temporal::Core::ECS::Systems
             for (auto const &entity : m_entites)
             {
                 auto &transform = gECS_Orchestrator.Get_Component<Transform_Component>(entity);
-                Vector2D current_position = transform.get_position();
-                // transform.set_position(current_position.add(Vector2D(1, 0)));
+                auto &velocity = gECS_Orchestrator.Get_Component<Velocity_Component>(entity);
+                transform.m_position += velocity.get_velocity();
+                transform.m_position += velocity.get_velocity();
             }
         }
     };

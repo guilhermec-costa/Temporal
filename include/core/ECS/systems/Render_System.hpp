@@ -20,8 +20,8 @@ namespace Temporal::Core::ECS::Systems
             {
                 auto &sprite = gECS_Orchestrator.Get_Component<Sprite_Component>(entity);
                 auto &transform = gECS_Orchestrator.Get_Component<Transform_Component>(entity);
-                sprite.m_dst_rect.x = transform.get_position().m_x;
-                sprite.m_dst_rect.y = transform.get_position().m_y;
+                sprite.m_dst_rect.x = transform.m_position.m_x;
+                sprite.m_dst_rect.y = transform.m_position.m_y;
                 Temporal_Texture_Manager::get().draw(
                     sprite.m_texture_path, sprite.m_src_rect, sprite.m_dst_rect, renderer);
             }

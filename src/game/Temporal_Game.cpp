@@ -8,6 +8,7 @@
 #include "core/ECS/ECS_Orchestrator.hpp"
 #include "core/ECS/components/Transform_Component.hpp"
 #include "core/ECS/components/Sprite_Component.hpp"
+#include "core/ECS/components/Velocity_Component.hpp"
 #include "game/events/Move_Event.h"
 #include "game/events/event.h"
 #include "game/events/Temporal_Event_Manager.h"
@@ -83,9 +84,11 @@ namespace Temporal::Game
                                             PLAYER_TEXTURE,
                                             SDL_Rect{0, 0, 32, 32},
                                             SDL_Rect{
-                                                (int)gECS_Orchestrator.Get_Component<Transform_Component>(player).get_position().m_x,
-                                                (int)gECS_Orchestrator.Get_Component<Transform_Component>(player).get_position().m_y,
+                                                (int)gECS_Orchestrator.Get_Component<Transform_Component>(player).m_position.m_x,
+                                                (int)gECS_Orchestrator.Get_Component<Transform_Component>(player).m_position.m_y,
                                                 64, 64}});
+
+        gECS_Orchestrator.Add_Component(player, Velocity_Component(0, 0));
     }
 
     // must be done before game initialization
@@ -116,6 +119,11 @@ namespace Temporal::Game
     SDL_Window *TemporalGame::get_raw_window() const { return m_main_window.get_window(); }
     bool TemporalGame::executing() const { return m_is_executing; }
 
+    void TemporalGame::update()
+    {
+        m_position_system->update();
+    }
+
     void TemporalGame::process_inputs()
     {
         SDL_PollEvent(&m_event);
@@ -129,10 +137,61 @@ namespace Temporal::Game
         {
             switch (m_event.key.keysym.sym)
             {
-            case SDLK_d:
-                Move_Event* event = new Move_Event(player, -3.0f, 0.0f);
+            case SDLK_a:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Move_LEFT);
                 gEvent_manager.publish(event);
                 break;
+            }
+            case SDLK_w:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Move_UP);
+                gEvent_manager.publish(event);
+                break;
+            }
+            case SDLK_s:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Move_DOWN);
+                gEvent_manager.publish(event);
+                break;
+            }
+            case SDLK_d:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Move_RIGHT);
+                gEvent_manager.publish(event);
+                break;
+            }
+            }
+            break;
+        }
+        case SDL_KEYUP:
+        {
+            switch (m_event.key.keysym.sym)
+            {
+            case SDLK_a:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Stop_LEFT);
+                gEvent_manager.publish(event);
+                break;
+            }
+            case SDLK_w:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Stop_UP);
+                gEvent_manager.publish(event);
+                break;
+            }
+            case SDLK_s:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Stop_DOWN);
+                gEvent_manager.publish(event);
+                break;
+            }
+            case SDLK_d:
+            {
+                Event *event = new Move_Event(player, Move_Event_Type::Stop_RIGHT);
+                gEvent_manager.publish(event);
+                break;
+            }
             }
             break;
         }
@@ -140,11 +199,6 @@ namespace Temporal::Game
             break;
         }
         gEvent_manager.react();
-    }
-
-    void TemporalGame::update()
-    {
-        m_position_system->update();
     }
 
     void TemporalGame::render()
@@ -167,6 +221,7 @@ namespace Temporal::Game
     {
         gECS_Orchestrator.Register_Component<Transform_Component>();
         gECS_Orchestrator.Register_Component<Sprite_Component>();
+        gECS_Orchestrator.Register_Component<Velocity_Component>();
     }
 
     void TemporalGame::register_ECS_systems()
@@ -191,8 +246,7 @@ namespace Temporal::Game
 
     void Temporal_Game::register_event_handlers()
     {
-        auto *handler = new Move_Event_Handler();
-        gEvent_manager.register_handler(Event_Type::Move, handler);
+        gEvent_manager.register_handler<Move_Event>(new Move_Event_Handler());
     }
 
     uint32_t TemporalGame::get_max_framerate() const { return m_max_framerate; }
