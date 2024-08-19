@@ -3,6 +3,7 @@
 #include "game/Temporal_Renderer.h"
 #include "core/ECS/systems/Transform_System.hpp"
 #include "core/ECS/systems/Render_System.hpp"
+#include "core/ECS/systems/Collider_System.hpp"
 
 namespace Temporal::Game
 {
@@ -34,8 +35,9 @@ namespace Temporal::Game
         bool m_is_executing;
         unsigned int m_max_framerate;
         static int IMG_system_flags; 
-        std::shared_ptr<Position_System> m_position_system;
+        std::shared_ptr<Transform_System> m_position_system;
         std::shared_ptr<Render_System> m_render_system;
+        std::shared_ptr<Collider_System> m_collider_system;
         static SDL_Event m_event;
     };
 };

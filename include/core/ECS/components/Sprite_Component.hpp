@@ -8,11 +8,26 @@ namespace Temporal::Core::ECS::Components
     struct Sprite_Component
     {
         float x, y;
-        const char* m_texture_path;
-        SDL_Rect m_src_rect, m_dst_rect;
+        const char *m_texture_path;
+        Vector2D m_dimensions;
+        SDL_Rect m_src_rect;
+        SDL_Rect m_dst_rect;
+        float m_angle = 0.0f;
+        SDL_Point* m_center = nullptr;
+        SDL_RendererFlip m_flip = SDL_FLIP_NONE;
 
-        Sprite_Component(const char* path, const SDL_Rect& src_rect, const SDL_Rect& dst_rect) 
-            : m_texture_path(path), m_src_rect(src_rect), m_dst_rect(dst_rect) {}
+        Sprite_Component(const char *path, const SDL_Rect &src_rect, const Vector2D &dim)
+            : m_texture_path(path), m_src_rect(src_rect), m_dimensions(dim)
+        {
+            m_dst_rect.w = m_dimensions.m_x;
+            m_dst_rect.h = m_dimensions.m_y;
+        }
+
+        void set_position(int x, int y)
+        {
+            m_dst_rect.x = x;
+            m_dst_rect.y = y;
+        }
     };
 }
 

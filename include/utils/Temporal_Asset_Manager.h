@@ -12,6 +12,7 @@ namespace Temporal::Utils
         Asset_Manager() = default;
         Asset_Manager(const Asset_Manager &) = delete;
         Asset_Manager &operator=(const Asset_Manager &) = delete;
+        ~Asset_Manager();
         std::unordered_map<std::string, SDL_Surface *> m_surfaces_map;
 
     public:

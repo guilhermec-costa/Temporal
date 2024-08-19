@@ -1,5 +1,6 @@
 #pragma once
 #include <set>
+#include <vector>
 #include "core/ECS/ecs.hpp"
 
 namespace Temporal::Core::ECS
@@ -9,6 +10,6 @@ namespace Temporal::Core::ECS
     {
     public:
         // list of entities that the system will iterate upon
-        std::set<Entity> m_entites;
+        std::vector<Entity> m_entites;
     };
 }

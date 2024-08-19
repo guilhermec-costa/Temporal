@@ -43,4 +43,12 @@ namespace Temporal::Utils
         if (texture != nullptr)
             SDL_RenderCopy(_renderer, m_texture_map[path], &src, &dst);
     }
+
+    Temporal_Texture_Manager::~Temporal_Texture_Manager()
+    {
+        for (auto const &pair : m_texture_map)
+        {
+            SDL_DestroyTexture(pair.second);
+        }
+    }
 }

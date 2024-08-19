@@ -11,7 +11,7 @@ extern Temporal::Core::ECS::ECS_Orchestrator gECS_Orchestrator;
 
 namespace Temporal::Core::ECS::Systems
 {
-    class Position_System : public System
+    class Transform_System : public System
     {
     public:
         void update()
@@ -27,4 +27,4 @@ namespace Temporal::Core::ECS::Systems
     };
 }
 
-using Position_System = Temporal::Core::ECS::Systems::Position_System;
+using Transform_System = Temporal::Core::ECS::Systems::Transform_System;

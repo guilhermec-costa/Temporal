@@ -7,7 +7,7 @@ namespace Temporal::Core::ECS::Components
     struct Transform_Component
     {
         Transform_Component()
-            : m_position(0.0f, 0.0f), m_rotation(0.0f), m_scale(0.0f, 0.0f)  {}
+            : m_position(0.0f, 0.0f), m_rotation(0.0f), m_scale(1.0f, 1.0f) {}
         Transform_Component(Vector2D position, float rotation, Vector2D scale)
             : m_position(position), m_rotation(rotation), m_scale(scale) {}
 
@@ -21,8 +21,8 @@ namespace Temporal::Core::ECS::Components
         // float get_rotation() const { return m_rotation; }
         // void set_rotation(float rotation) { m_rotation = rotation; }
 
-        // Vector2D get_scale() const { return m_scale; }
-        // void set_scale(Vector2D scale) { m_scale = scale; }
+        Vector2D get_scale() const { return m_scale; }
+        void set_scale(Vector2D scale) { m_scale = scale; }
     };
 }
 

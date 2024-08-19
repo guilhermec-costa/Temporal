@@ -21,6 +21,7 @@ namespace Temporal::Utils
     private:
         Temporal_Texture_Manager() = default;
         Temporal_Texture_Manager(const Temporal_Texture_Manager &ref) = delete;
+        ~Temporal_Texture_Manager();
         Temporal_Texture_Manager &operator=(const Temporal_Texture_Manager &ref) = delete;
         std::unordered_map<std::string, SDL_Texture *> m_texture_map;
     };

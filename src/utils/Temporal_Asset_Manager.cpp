@@ -5,7 +5,7 @@
 namespace Temporal::Utils
 {
 
-    void Asset_Manager::load_asset(const std::string& path)
+    void Asset_Manager::load_asset(const std::string &path)
     {
         auto loaded_asset = m_surfaces_map.find(path);
         std::string message = "Asset on ";
@@ -31,7 +31,7 @@ namespace Temporal::Utils
         LOG_INFO(message);
     }
 
-    SDL_Surface *Asset_Manager::get_asset(const std::string& path)
+    SDL_Surface *Asset_Manager::get_asset(const std::string &path)
     {
         auto loaded_asset = m_surfaces_map.find(path);
         if (loaded_asset == m_surfaces_map.end())
@@ -48,7 +48,7 @@ namespace Temporal::Utils
         return loaded_asset->second;
     }
 
-    void Asset_Manager::clear_from_asset_map(const std::string& path)
+    void Asset_Manager::clear_from_asset_map(const std::string &path)
     {
         auto it = m_surfaces_map.find(path);
         if (it == m_surfaces_map.end() || !it->second)
@@ -58,6 +58,14 @@ namespace Temporal::Utils
         }
 
         m_surfaces_map.erase(path);
+    }
+
+    Asset_Manager::~Asset_Manager()
+    {
+        for (auto const &pair : m_surfaces_map)
+        {
+            SDL_FreeSurface(pair.second);
+        }
     }
 
 }
