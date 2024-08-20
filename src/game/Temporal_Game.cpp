@@ -164,25 +164,25 @@ namespace Temporal::Game
             }
             case SDLK_a:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Move_LEFT);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Move_LEFT);
                 gEvent_manager.publish(event);
                 break;
             }
             case SDLK_w:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Move_UP);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Move_UP);
                 gEvent_manager.publish(event);
                 break;
             }
             case SDLK_s:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Move_DOWN);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Move_DOWN);
                 gEvent_manager.publish(event);
                 break;
             }
             case SDLK_d:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Move_RIGHT);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Move_RIGHT);
                 gEvent_manager.publish(event);
                 break;
             }
@@ -195,25 +195,25 @@ namespace Temporal::Game
             {
             case SDLK_a:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Stop_LEFT);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Stop_LEFT);
                 gEvent_manager.publish(event);
                 break;
             }
             case SDLK_w:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Stop_UP);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Stop_UP);
                 gEvent_manager.publish(event);
                 break;
             }
             case SDLK_s:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Stop_DOWN);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Stop_DOWN);
                 gEvent_manager.publish(event);
                 break;
             }
             case SDLK_d:
             {
-                Event *event = new Move_Event(player, Move_Event_Type::Stop_RIGHT);
+                std::unique_ptr<Event> event = std::make_unique<Move_Event>(player, Move_Event_Type::Stop_RIGHT);
                 gEvent_manager.publish(event);
                 break;
             }
@@ -285,7 +285,7 @@ namespace Temporal::Game
 
     void TemporalGame::register_event_handlers()
     {
-        gEvent_manager.register_handler<Move_Event>(new Move_Event_Handler());
+        gEvent_manager.register_subscribe<Move_Event>(new Move_Event_Subscriber());
     }
 
     uint32_t TemporalGame::get_max_framerate() const

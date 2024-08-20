@@ -7,9 +7,9 @@ extern ECS_Orchestrator gECS_Orchestrator;
 
 namespace Temporal::Game::Events
 {
-    void Move_Event_Handler::react(Event *event)
+    void Move_Event_Subscriber::react(std::unique_ptr<Event> &event)
     {
-        Move_Event *move_event = dynamic_cast<Move_Event *>(event);
+        Move_Event *move_event = dynamic_cast<Move_Event *>(event.get());
         Move_Event_Type move_type = move_event->m_move_type;
         switch (move_type)
         {

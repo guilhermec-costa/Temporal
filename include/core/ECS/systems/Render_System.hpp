@@ -33,7 +33,7 @@ namespace Temporal::Core::ECS::Systems
                 if (collider.m_outlined)
                 {
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                    SDL_RenderDrawRect(renderer, &collider.m_collider);
+                    collider.draw_outline(renderer);
                     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 }
             }

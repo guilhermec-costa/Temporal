@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "core/math/Vector2D.h"
 #include "core/ECS/ecs.hpp"
 #include "game/events/event.h"
@@ -26,13 +27,13 @@ namespace Temporal::Game::Events
             : Event(e, typeid(Move_Event).name()), m_move_type(type) {}
     };
 
-    struct Move_Event_Handler : public Event_Handler
+    struct Move_Event_Subscriber : public Event_Handler
     {
-        Move_Event_Handler() = default;
-        void react(Event *event);
+        Move_Event_Subscriber() = default;
+        void react(std::unique_ptr<Event> &event);
     };
 }
 
 using Move_Event = Temporal::Game::Events::Move_Event;
-using Move_Event_Handler = Temporal::Game::Events::Move_Event_Handler;
+using Move_Event_Subscriber = Temporal::Game::Events::Move_Event_Subscriber;
 using Move_Event_Type = Temporal::Game::Events::Move_Event_Type;

@@ -2,6 +2,7 @@
 #include <queue>
 #include <string>
 #include <unordered_map>
+#include <functional>
 #include "game/events/event.h"
 
 namespace Temporal::Game::Events
@@ -10,18 +11,20 @@ namespace Temporal::Game::Events
     {
     public:
         template <typename event_T>
-        void register_handler(Event_Handler *handler)
+        void register_subscribe(Event_Handler *handler)
         {
             const char *event_typename = typeid(event_T).name();
             m_handlers_map[event_typename] = handler;
         }
-        void publish(Event *event);
+        void publish(std::unique_ptr<Event>& ptr);
+        void publish(std::function<void()>);
         void react();
         ~Event_Manager();
 
     private:
-        std::queue<Event *> m_event_queue;
-        std::queue<Event *> m_global_event_queue;
+        std::queue<std::unique_ptr<Event>> m_event_queue{};
+        std::queue<std::unique_ptr<Event>> m_global_event_queue{};
+        std::queue<std::function<void()>> m_cb_queue;
         std::unordered_map<const char *, Event_Handler *> m_handlers_map;
     };
 }

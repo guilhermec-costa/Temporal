@@ -36,6 +36,11 @@ namespace Temporal::Core::ECS::Components
                 return true;
             return false;
         }
+
+        void draw_outline(SDL_Renderer* renderer)
+        {
+            SDL_RenderDrawRect(renderer, &m_collider);
+        }
     };
 }
 
