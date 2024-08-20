@@ -72,20 +72,23 @@ namespace Temporal::Game
 
         Temporal_Texture_Manager::get().load(PLAYER_TEXTURE, m_renderer->get_renderer());
         Temporal_Texture_Manager::get().load(BLOCKS, m_renderer->get_renderer());
+        Temporal_Texture_Manager::get().load(WOOD, m_renderer->get_renderer());
 
         map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
-        // map->load_map(map_data);
+        map->load_map(map_data);
 
         player = gECS_Orchestrator.Create_Entity();
         gECS_Orchestrator.Add_Component<Transform_Component>(player, {Vector2D(100, 100), 0.0f, Vector2D(1, 1)});
         gECS_Orchestrator.Add_Component<Sprite_Component>(player, {PLAYER_TEXTURE, SDL_Rect{0, 0, 32, 32}, Vector2D(64, 64)});
-        gECS_Orchestrator.Add_Component(player, Velocity_Component(0, 0));
-        gECS_Orchestrator.Add_Component(player, Collider_Component(64, 64, 100, 100, "player"));
+        gECS_Orchestrator.Add_Component<Velocity_Component>(player, {0, 0});
+        gECS_Orchestrator.Add_Component<Collider_Component>(player, {64, 64, 100, 100, "player"});
+        gECS_Orchestrator.Get_Component<Collider_Component>(player).m_outlined = true;
 
         block = gECS_Orchestrator.Create_Entity();
         gECS_Orchestrator.Add_Component<Transform_Component>(block, {Vector2D(300, 100), 0.0f, Vector2D(1, 1)});
         gECS_Orchestrator.Add_Component<Sprite_Component>(block, {BLOCKS, SDL_Rect{35, 1, 16, 16}, Vector2D(64, 64)});
-        gECS_Orchestrator.Add_Component(block, Collider_Component(64, 64, 300, 100, "block"));
+        gECS_Orchestrator.Add_Component<Velocity_Component>(block, {0, 0});
+        gECS_Orchestrator.Add_Component<Collider_Component>(block, {64, 64, 300, 100, "block"});
     }
 
     // must be done before game initialization
@@ -146,6 +149,20 @@ namespace Temporal::Game
         {
             switch (m_event.key.keysym.sym)
             {
+            case SDLK_ESCAPE:
+            {
+                if (m_is_paused)
+                {
+                    std::cout << "game unpaused" << "\n";
+                    m_is_paused = false;
+                }
+                else
+                {
+                    std::cout << "game paused" << "\n";
+                    m_is_paused = true;
+                }
+                break;
+            }
             case SDLK_a:
             {
                 Event *event = new Move_Event(player, Move_Event_Type::Move_LEFT);
@@ -213,7 +230,7 @@ namespace Temporal::Game
     void TemporalGame::render()
     {
         SDL_RenderClear(m_renderer->get_renderer());
-        // map->render_map();
+        map->render_map();
         m_render_system->update(m_renderer->get_renderer());
         SDL_RenderPresent(m_renderer->get_renderer());
     }
@@ -230,40 +247,42 @@ namespace Temporal::Game
         gECS_Orchestrator.Register_Component<Transform_Component>();
         gECS_Orchestrator.Register_Component<Sprite_Component>();
         gECS_Orchestrator.Register_Component<Velocity_Component>();
-        gECS_Orchestrator.Register_Component<Collider_Component>();
         gECS_Orchestrator.Register_Component<Size_Component>();
+        gECS_Orchestrator.Register_Component<Collider_Component>();
     }
 
     void TemporalGame::register_ECS_systems()
     {
+        m_collider_system = gECS_Orchestrator.Register_System<Collider_System>();
         m_position_system = gECS_Orchestrator.Register_System<Transform_System>();
         m_render_system = gECS_Orchestrator.Register_System<Render_System>();
-        m_collider_system = gECS_Orchestrator.Register_System<Collider_System>();
     }
 
     void TemporalGame::set_ECS_component_signatures()
     {
         Component_Type transform_component = gECS_Orchestrator.Get_Component_Type<Transform_Component>();
         Component_Type velocity_component = gECS_Orchestrator.Get_Component_Type<Velocity_Component>();
-        Component_Type collider_component = gECS_Orchestrator.Get_Component_Type<Collider_Component>();
         Component_Type sprite_component = gECS_Orchestrator.Get_Component_Type<Sprite_Component>();
+        Component_Type collider_component = gECS_Orchestrator.Get_Component_Type<Collider_Component>();
 
         Component_Signature transform_system_signature;
         transform_system_signature.set(transform_component);
         transform_system_signature.set(velocity_component);
+        transform_system_signature.set(collider_component);
         gECS_Orchestrator.Set_System_Signature<Transform_System>(transform_system_signature);
+
+        Component_Signature collider_system_signature;
+        collider_system_signature.set(transform_component);
+        collider_system_signature.set(sprite_component);
+        collider_system_signature.set(velocity_component);
+        collider_system_signature.set(collider_component);
+        gECS_Orchestrator.Set_System_Signature<Collider_System>(collider_system_signature);
 
         Component_Signature render_system_signature;
         render_system_signature.set(transform_component);
         render_system_signature.set(sprite_component);
         render_system_signature.set(collider_component);
         gECS_Orchestrator.Set_System_Signature<Render_System>(render_system_signature);
-
-        Component_Signature collider_system_signature;
-        collider_system_signature.set(collider_component);
-        collider_system_signature.set(transform_component);
-        collider_system_signature.set(sprite_component);
-        gECS_Orchestrator.Set_System_Signature<Collider_System>(collider_system_signature);
     }
 
     void TemporalGame::register_event_handlers()

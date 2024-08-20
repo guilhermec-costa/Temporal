@@ -7,4 +7,5 @@ namespace Temporal::Resources {
     constexpr auto RED = "res/gfx/red.png";
     constexpr auto GREEN = "res/gfx/green.png";
     constexpr auto BLUE = "res/gfx/blue.png";
+    constexpr auto WOOD = "res/gfx/wood.png";
 }

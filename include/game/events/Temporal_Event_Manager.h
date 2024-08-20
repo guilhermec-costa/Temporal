@@ -21,6 +21,7 @@ namespace Temporal::Game::Events
 
     private:
         std::queue<Event *> m_event_queue;
+        std::queue<Event *> m_global_event_queue;
         std::unordered_map<const char *, Event_Handler *> m_handlers_map;
     };
 }

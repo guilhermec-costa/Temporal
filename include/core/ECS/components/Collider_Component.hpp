@@ -1,23 +1,23 @@
 #pragma once
 #include <SDL2/SDL_rect.h>
+#include <string>
 
 namespace Temporal::Core::ECS::Components
 {
     struct Collider_Component
     {
         SDL_Rect m_collider;
-        std::string m_tag;
+        const char *m_tag;
+        bool m_outlined;
+        bool is_colliding;
 
-        Collider_Component(int w, int h, int x, int y, const std::string& tag)
-            : m_tag(tag)
+        Collider_Component(int w, int h, int x, int y, const char *tag)
+            : m_collider{x, y, w, h}, m_tag(tag), m_outlined(false), is_colliding(false)
         {
-            m_collider.w = w;
-            m_collider.h = h;
-            m_collider.x = x;
-            m_collider.y = y;
         }
 
-        void set_coords(int x, int y) {
+        void set_coords(int x, int y)
+        {
             m_collider.x = x;
             m_collider.y = y;
         }

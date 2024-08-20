@@ -23,11 +23,12 @@ namespace Temporal::Core::ECS::Systems
             {
                 Entity &entityA = m_entites[i];
                 auto &collider_cp_A = gECS_Orchestrator.Get_Component<Collider_Component>(entityA);
-                auto &transform_cp = gECS_Orchestrator.Get_Component<Transform_Component>(entityA);
+                auto &transform_cp_A = gECS_Orchestrator.Get_Component<Transform_Component>(entityA);
+                auto &velocity_cp_A = gECS_Orchestrator.Get_Component<Velocity_Component>(entityA);
                 auto &sprite = gECS_Orchestrator.Get_Component<Sprite_Component>(entityA);
 
-                Vector2D position = transform_cp.get_position();
-                Vector2D scale = transform_cp.get_scale();
+                Vector2D position = transform_cp_A.get_position();
+                Vector2D scale = transform_cp_A.get_scale();
 
                 collider_cp_A.set_coords(position.m_x, position.m_y);
                 collider_cp_A.set_dimensions(sprite.m_dst_rect.w * scale.m_x, sprite.m_dst_rect.h * scale.m_y);
@@ -39,7 +40,11 @@ namespace Temporal::Core::ECS::Systems
                     bool collided = Collision_Orchestrator::AABB(collider_cp_A.m_collider, collider_cp_B.m_collider);
                     if (collided)
                     {
-                        std::cout << "Tag " << collider_cp_B.m_tag << " collided with " << collider_cp_A.m_tag << "\n";
+                        if (collider_cp_A.m_tag == "player" && collider_cp_B.m_tag == "block")
+                        {
+                            // velocity_cp_A.set_velocity(Vector2D{-1, 0});
+                            //collider_cp_A.is_colliding = true;
+                        }
                     }
                 }
             }

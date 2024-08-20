@@ -29,10 +29,13 @@ namespace Temporal::Core::ECS::Systems
 
                 Temporal_Texture_Manager::get().draw(
                     sprite.m_texture_path, sprite.m_src_rect, sprite.m_dst_rect, renderer);
-                
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_RenderDrawRect(renderer, &collider.m_collider);
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+                if (collider.m_outlined)
+                {
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                    SDL_RenderDrawRect(renderer, &collider.m_collider);
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                }
             }
         }
     };

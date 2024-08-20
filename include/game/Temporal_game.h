@@ -33,6 +33,7 @@ namespace Temporal::Game
     private:
         Temporal_SDL_Window &m_main_window;
         bool m_is_executing;
+        bool m_is_paused;
         unsigned int m_max_framerate;
         static int IMG_system_flags; 
         std::shared_ptr<Transform_System> m_position_system;

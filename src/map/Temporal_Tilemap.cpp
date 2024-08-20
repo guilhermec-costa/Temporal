@@ -12,9 +12,10 @@ namespace Temporal::Game::Map
         : m_map_width(width), m_map_height(height), m_tile_size(tile_size)
     {
         m_tiles_texture_mapper = {
-            std::make_pair(0, Temporal::Resources::RED),
+            std::make_pair(0, Temporal::Resources::WOOD),
             std::make_pair(1, Temporal::Resources::GREEN),
-            std::make_pair(2, Temporal::Resources::BLUE)};
+            std::make_pair(2, Temporal::Resources::BLUE),
+            std::make_pair(3, Temporal::Resources::WOOD)};
 
         for (auto it = m_tiles_texture_mapper.begin(); it != m_tiles_texture_mapper.end(); it++)
         {
@@ -59,7 +60,7 @@ namespace Temporal::Game::Map
         {
             for (int col = 0; col < m_columns_qty; col++)
             {
-                Temporal_Tile& tile = m_tiles[row * m_columns_qty + col];
+                Temporal_Tile &tile = m_tiles[row * m_columns_qty + col];
                 Temporal_Texture_Manager::get().draw(
                     tile.texture_path,
                     tile.dst_rect.x, tile.dst_rect.y,
