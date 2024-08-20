@@ -1,6 +1,6 @@
 #pragma once
 #include "core/ECS/ecs.hpp"
-#include "core/math/Vector2D.h";
+#include "core/math/Vector2D.h"
 
 namespace Temporal::Core::ECS::Components
 {

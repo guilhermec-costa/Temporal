@@ -17,7 +17,7 @@ namespace Temporal::Core::ECS::Components
         SDL_RendererFlip m_flip = SDL_FLIP_NONE;
 
         Sprite_Component(const char *path, const SDL_Rect &src_rect, const Vector2D &dim)
-            : m_texture_path(path), m_src_rect(src_rect), m_dimensions(dim)
+            : m_texture_path(path), m_dimensions(dim), m_src_rect(src_rect)
         {
             m_dst_rect.w = m_dimensions.m_x;
             m_dst_rect.h = m_dimensions.m_y;

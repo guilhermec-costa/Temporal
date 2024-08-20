@@ -10,7 +10,6 @@
 #include "core/ECS/components/Sprite_Component.hpp"
 #include "core/ECS/components/Velocity_Component.hpp"
 #include "core/ECS/components/Collider_Component.hpp"
-#include "core/ECS/components/Size_Component.hpp"
 #include "game/events/Move_Event.h"
 #include "game/events/event.h"
 #include "game/events/Temporal_Event_Manager.h"
@@ -77,18 +76,18 @@ namespace Temporal::Game
         map = new Temporal_Tilemap(window.get_width(), window.get_height(), 32);
         map->load_map(map_data);
 
-        player = gECS_Orchestrator.Create_Entity();
+        player = gECS_Orchestrator.Create_Entity("player");
         gECS_Orchestrator.Add_Component<Transform_Component>(player, {Vector2D(100, 100), 0.0f, Vector2D(1, 1)});
         gECS_Orchestrator.Add_Component<Sprite_Component>(player, {PLAYER_TEXTURE, SDL_Rect{0, 0, 32, 32}, Vector2D(64, 64)});
         gECS_Orchestrator.Add_Component<Velocity_Component>(player, {0, 0});
-        gECS_Orchestrator.Add_Component<Collider_Component>(player, {64, 64, 100, 100, "player"});
+        gECS_Orchestrator.Add_Component<Collider_Component>(player, {64, 64, 100, 100, gECS_Orchestrator.Get_Entity_Name(player)});
         gECS_Orchestrator.Get_Component<Collider_Component>(player).m_outlined = true;
 
-        block = gECS_Orchestrator.Create_Entity();
+        block = gECS_Orchestrator.Create_Entity("block");
         gECS_Orchestrator.Add_Component<Transform_Component>(block, {Vector2D(300, 100), 0.0f, Vector2D(1, 1)});
         gECS_Orchestrator.Add_Component<Sprite_Component>(block, {BLOCKS, SDL_Rect{35, 1, 16, 16}, Vector2D(64, 64)});
         gECS_Orchestrator.Add_Component<Velocity_Component>(block, {0, 0});
-        gECS_Orchestrator.Add_Component<Collider_Component>(block, {64, 64, 300, 100, "block"});
+        gECS_Orchestrator.Add_Component<Collider_Component>(block, {64, 64, 300, 100, gECS_Orchestrator.Get_Entity_Name(block)});
     }
 
     // must be done before game initialization
@@ -247,7 +246,6 @@ namespace Temporal::Game
         gECS_Orchestrator.Register_Component<Transform_Component>();
         gECS_Orchestrator.Register_Component<Sprite_Component>();
         gECS_Orchestrator.Register_Component<Velocity_Component>();
-        gECS_Orchestrator.Register_Component<Size_Component>();
         gECS_Orchestrator.Register_Component<Collider_Component>();
     }
 

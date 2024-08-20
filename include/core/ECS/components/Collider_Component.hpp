@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL2/SDL_rect.h>
-#include <string>
+#include "core/ECS/ECS_Orchestrator.hpp"
+
+extern ECS_Orchestrator gECS_Orchestrator;
 
 namespace Temporal::Core::ECS::Components
 {
@@ -26,6 +28,13 @@ namespace Temporal::Core::ECS::Components
         {
             m_collider.w = w;
             m_collider.h = h;
+        }
+
+        bool belongs_to_entity(const char *entity_name)
+        {
+            if (strcmp(this->m_tag, entity_name) == 0)
+                return true;
+            return false;
         }
     };
 }

@@ -17,9 +17,14 @@ namespace Temporal::Core::ECS
             m_system_manager = std::make_unique<System_Manager>();
         }
 
-        Entity Create_Entity()
+        Entity Create_Entity(const char *name)
         {
-            return m_entity_manager->Create_Entity();
+            return m_entity_manager->Create_Entity(name);
+        }
+
+        const char* Get_Entity_Name(Entity e)
+        {
+            return m_entity_manager->Get_Entity_Name(e);
         }
 
         void Destroy_Entity(Entity entity)

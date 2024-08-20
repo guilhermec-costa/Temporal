@@ -14,7 +14,7 @@ namespace Temporal::Game::Map
         Temporal_Tile() {}
         Temporal_Tile(const SDL_Rect &src_rect, const SDL_Rect &dst_rect,
                       const std::string &texture_path, bool is_walkable)
-            : src_rect(src_rect), dst_rect(dst_rect), texture_path(texture_path), is_walkable(is_walkable)
+            : src_rect(src_rect), dst_rect(dst_rect), is_walkable(is_walkable), texture_path(texture_path)
         {
         }
     };

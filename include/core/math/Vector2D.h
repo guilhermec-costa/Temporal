@@ -21,6 +21,8 @@ namespace Temporal::Core::Math
         Vector2D &operator*=(const Vector2D &v2);
         Vector2D &operator/=(const Vector2D &v2);
 
+        Vector2D &operator*(const int scale);
+
         float m_x, m_y;
     };
 }

@@ -13,27 +13,36 @@ namespace Temporal::Core::ECS
     public:
         Entity_Manager()
         {
+            m_entities_name.reserve(MAX_ENTITIES);
             for (Entity e = 0; e < MAX_ENTITIES; ++e)
             {
                 m_available_entities.push(e);
             }
         }
 
-        Entity Create_Entity()
+        Entity Create_Entity(const char *name)
         {
-            //assert(m_living_entities_counter < MAX_ENTITIES && "Too many entities");
+            // assert(m_living_entities_counter < MAX_ENTITIES && "Too many entities");
 
             Entity nextId = m_available_entities.front();
             m_available_entities.pop();
             m_living_entities_counter++;
 
+            m_entities_name.push_back(name);
+
             return nextId;
+        }
+
+        const char *Get_Entity_Name(Entity e)
+        {
+            return m_entities_name[e];
         }
 
         void Destroy_Entity(Entity e)
         {
             m_component_signatures[e].reset();
             m_available_entities.push(e);
+            m_entities_name.erase(m_entities_name.begin() + e);
             m_living_entities_counter--;
         }
 
@@ -50,9 +59,11 @@ namespace Temporal::Core::ECS
         }
         // association between component signatures and entities
         std::array<Component_Signature, MAX_ENTITIES> m_component_signatures{};
-        
+
         // unused entities, no components associated
         std::queue<Entity> m_available_entities{};
+
+        std::vector<const char *> m_entities_name;
         uint32_t m_living_entities_counter;
     };
 

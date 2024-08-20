@@ -74,4 +74,11 @@ namespace Temporal::Core::Math
     {
         return this->divide(v2);
     }
+
+    Vector2D &Vector2D::operator*(const int scale)
+    {
+        this->m_x *= scale;
+        this->m_y *= scale;
+        return *this;
+    }
 }
